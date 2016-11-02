@@ -1,7 +1,3 @@
-//
-// Created by Stephen ASIEDU on 2016/10/31.
-//
-
 #ifndef TASKMASTER_PROGRAM_H
 #define TASKMASTER_PROGRAM_H
 
@@ -15,6 +11,8 @@
 # include <unistd.h>
 # include <libc.h>
 # include <map>
+# include <sstream>
+# include <fstream>
 
 
 using namespace std;
@@ -38,15 +36,15 @@ private:
     string redirStderr;
     int numProcessesRunning;
     vector<pid_t> runningProcesses;
-    map<char*,char*> env;
-    bool    checkExitStat(int status);
+    map<char *, char *> env;
+
 
 public:
     Program();
 
     Program(string name, string cmd, int numProcess, int umask, string dir, bool autostart, int autorestart,
             vector<int> exit_codes, int startRetries, int startTime, int stopTime, string redirStdout,
-            string redirStderr, map<char*, char*> env);
+            string redirStderr, map<char *, char *> env);
 
     ~Program();
 
@@ -107,7 +105,7 @@ public:
     //env
     pid_t startProcess();
 
-    bool    checkExitStat(int status);
+    bool checkExitStat(int status);
 };
 
 #endif //TASKMASTER_PROGRAM_H

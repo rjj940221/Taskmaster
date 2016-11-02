@@ -3,11 +3,7 @@
 //
 
 #include "../includes/program.h"
-#include <iostream>
-#include <sstream>
-# include <sys/types.h>
-# include <sys/stat.h>
-#include <fstream>
+
 
 using namespace std;
 
@@ -80,7 +76,7 @@ bool changeWorkingDir(string dir){
     else if (info.st_mode & S_IFDIR) {// S_ISDIR() doesn't exist on my windows
         printf("%s is a directory\n", newLoc);
         int re = chdir(newLoc);
-       // cout << "chdir returned " << re << endl;
+        // cout << "chdir returned " << re << endl;
         if (re == 0)
             return true;
 
@@ -158,7 +154,6 @@ pid_t Program::startProcess() {
         bool    gotExit = false;
         time_t reff;
         time_t current;
-
         time(&reff);
         time(&current);
         re = pid;
@@ -180,8 +175,8 @@ pid_t Program::startProcess() {
         delete[] args;
         return pid;
     }
-   // delete[] args;
-   // return re;
+    // delete[] args;
+    // return re;
 }
 
 bool Program::checkExitStat(int status) {
