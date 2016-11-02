@@ -80,15 +80,13 @@ bool changeWorkingDir(string dir){
     else if (info.st_mode & S_IFDIR) {// S_ISDIR() doesn't exist on my windows
         printf("%s is a directory\n", newLoc);
         int re = chdir(newLoc);
-        cout << "chdir returnd" << re << endl;
+       // cout << "chdir returned " << re << endl;
         if (re == 0)
             return true;
 
     }
     return false;
 }
-
-
 
 Program::Program(string name, string cmd, int numProcess, int umask, string dir, bool autostart, int autorestart,
                  vector<int> exit_codes, int startRetries, int startTime, int stopTime, string redirStdout,
@@ -115,19 +113,18 @@ Program::~Program() {
 
 }
 
-
-bool Program::startProcess() {
+pid_t Program::startProcess() {
     if (cmd.empty())
         return false;
     int status;
-    bool re;
+    pid_t re;
     int exere;
     char **args = split_string(cmd, ' ');
 
     pid_t pid = fork();
     if (pid == -1)    //error
     {
-        re = false;
+        return (-1);
     } else if (pid == 0)     //child
     {
         umask(newUmask);
@@ -156,26 +153,41 @@ bool Program::startProcess() {
         cout << "execve returned " << exere << endl;
         exit(EXIT_FAILURE);
     } else {  //perent
-        wait(NULL);
+        //wait(NULL);
         /*pid_t w;
+        bool    gotExit = false;
         time_t reff;
         time_t current;
 
         time(&reff);
         time(&current);
+        re = pid;
         cout << "pid " << pid << " get pid " << getpid() << endl;
         do {
             //cout << "time elapsed " << difftime(current, reff) << endl;
             time(&current);
             w = waitpid(pid, &status, WNOHANG);
             if (w == -1) {
-              //  perror("waitpid error:");
+                perror("waitpid error:");
                 //exit(EXIT_FAILURE);
             }
-
-            //cout << "status of chile: " << WEXITSTATUS(status) << endl;
-        } while (difftime(current, reff) <= startTime);*/
+            else if (w != 0) {
+                cout << "got exit status of chile: " << WEXITSTATUS(status) << endl;
+                gotExit = true;
+                checkExitStat(WEXITSTATUS(status));
+            }
+        } while (difftime(current, reff) <= startTime && gotExit == false);*/
+        delete[] args;
+        return pid;
     }
-    delete[] args;
-    return re;
+   // delete[] args;
+   // return re;
+}
+
+bool Program::checkExitStat(int status) {
+    for (int i = 0; i < exit_codes.size(); ++i) {
+        if (exit_codes.at(i) == status)
+            return true;
+    }
+    return false;
 }

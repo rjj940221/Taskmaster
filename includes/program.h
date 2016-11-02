@@ -39,6 +39,7 @@ private:
     int numProcessesRunning;
     vector<pid_t> runningProcesses;
     map<char*,char*> env;
+    bool    checkExitStat(int status);
 
 public:
     Program();
@@ -104,7 +105,9 @@ public:
     void setStderr(string redirStderr) { this->redirStderr = redirStderr; };
 
     //env
-    bool startProcess();
+    pid_t startProcess();
+
+    bool    checkExitStat(int status);
 };
 
 #endif //TASKMASTER_PROGRAM_H
