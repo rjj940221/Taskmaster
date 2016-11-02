@@ -4,6 +4,22 @@
 
 #include "../includes/Taskmaster.h"
 
+static void    restartInstruction(const char *progName){
+    int     pos = isProgramExist(progName);
+
+    if (pos == -1){
+        write(1, RED, strlen(RED));
+        write(1, progName, strlen(progName));
+        write(1, ": ERROR (no such process)\n", 26);
+        write(1, RESET, strlen(RESET));
+        return ;
+    }
+    if (processes[pos].state == RUNNING){
+        stopInstruction(progName);
+    }
+    startInstruction(progName);
+}
+
 void    restartProcess(vector<string> param, LineEdit *shell){
     if (shell->shutdown){
         write(1, "temp", 4);

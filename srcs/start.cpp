@@ -3,7 +3,33 @@
 //
 #include "../includes/Taskmaster.h"
 
-void    startProcess(vector<string> param, LineEdit *shell){
+void    startInstruction(const char *progName){
+    int     pos = isProgramExist(progName);
+
+    if (pos == -1){
+        write(1, RED, strlen(RED));
+        write(1, progName, strlen(progName));
+        write(1, ": ERROR (no such process)\n", 26);
+        write(1, RESET, strlen(RESET));
+        return ;
+    }
+    if (processes[pos].state == STOPPED){
+        //start it
+    }else if (processes[pos].state == RUNNING){
+        write(1, RED, strlen(RED));
+        write(1, progName, strlen(progName));
+        write(1, ": ERROR (already started)\n", 26);
+        write(1, RESET, strlen(RESET));
+        return ;
+    }else{
+        write(1, RED, strlen(RED));
+        write(1, progName, strlen(progName));
+        write(1, ": ERROR (spawn error)\n", 22);
+        write(1, RESET, strlen(RESET));
+    }
+}
+
+void            startProcess(vector<string> param, LineEdit *shell){
     if (shell->shutdown){
         write(1, "temp", 4);
         return ;
@@ -22,8 +48,7 @@ void    startProcess(vector<string> param, LineEdit *shell){
     }
     else{
         for(size_t i = 1; i < param.size(); i++){
-            cout << time(0) << endl;
-            cout << "starting " << param[i].data() << endl;
+            startInstruction(param[i].data());
         }
     }
 
