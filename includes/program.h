@@ -11,8 +11,10 @@
 # include <ios>
 # include <vector>
 # include <sys/types.h>
+# include <sys/stat.h>
 # include <unistd.h>
 # include <libc.h>
+# include <map>
 
 
 using namespace std;
@@ -23,7 +25,7 @@ private:
     string name;
     string cmd;
     int numProcess;
-    //do umask
+    mode_t newUmask;
     string dir;
     bool autostart;
     int autorestart;
@@ -36,14 +38,14 @@ private:
     string redirStderr;
     int numProcessesRunning;
     vector<pid_t> runningProcesses;
-    //env
+    map<char*,char*> env;
 
 public:
     Program();
 
-    Program(string name, string cmd, int numProcess, string dir, bool autostart, int autorestart,
+    Program(string name, string cmd, int numProcess, int umask, string dir, bool autostart, int autorestart,
             vector<int> exit_codes, int startRetries, int startTime, int stopTime, string redirStdout,
-            string redirStderr);
+            string redirStderr, map<char*, char*> env);
 
     ~Program();
 

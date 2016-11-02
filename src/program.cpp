@@ -5,11 +5,13 @@
 #include "../includes/program.h"
 #include <iostream>
 #include <sstream>
+# include <sys/types.h>
+# include <sys/stat.h>
 #include <fstream>
 
 using namespace std;
 
-void split(const string &s, char delim, vector <string> &elems) {
+void split(const string &s, char delim, vector<string> &elems) {
     stringstream ss;
     ss.str(s);
     string item;
@@ -18,8 +20,8 @@ void split(const string &s, char delim, vector <string> &elems) {
     }
 }
 
-vector <string> split(const string &s, char delim) {
-    vector <string> elems;
+vector<string> split(const string &s, char delim) {
+    vector<string> elems;
     split(s, delim, elems);
     return elems;
 }
@@ -31,28 +33,19 @@ char *cstring(string in) {
     return (out);
 }
 
-Program::Program(string name, string cmd, int numProcess, string dir, bool autostart, int autorestart,
-                 vector<int> exit_codes, int startRetries, int startTime, int stopTime, string redirStdout,
-                 string redirStderr) {
-    this->name = name;
-    this->cmd = cmd;
-    this->numProcess = numProcess;
-    this->numProcessesRunning = 0;
-    //do umask
-    this->dir = dir;
-    this->autostart = autostart;
-    this->autorestart = autorestart;
-    this->exit_codes = exit_codes;
-    this->startRetries = startRetries;
-    this->startTime = startTime;
-    //stop signal
-    this->stopTime = stopTime;
-    this->redirStdout = redirStdout;
-    this->redirStderr = redirStderr;
-}
+char **split_string(const string &line, char delim) {
+    vector<string> splits = split(line, delim);
+    char **re;
 
-Program::~Program() {
-
+    if (!(re = (char **) malloc(sizeof(char *) * (splits.size() + 1))))
+        return NULL;
+    int size = splits.size();
+    cout << "number of elements " << splits.size() << endl;
+    for (int i = 0; i < size; ++i) {
+        re[i] = cstring(splits.at(i));
+    }
+    re[size] = NULL;
+    return re;
 }
 
 bool redifd(string file, int fd) {
@@ -60,7 +53,7 @@ bool redifd(string file, int fd) {
     char *newLoc = cstring(file);
     bool re;
 
-    cout << "tring to open " << newLoc << endl;
+    cout << "trying to open " << newLoc << endl;
     newfd = open(newLoc, O_RDWR);
     if (newfd < 0) {
         cout << "it bork" << endl;
@@ -73,62 +66,116 @@ bool redifd(string file, int fd) {
             re = true;
         }
     }
-    delete[](newLoc);
+    delete [](newLoc);
     return re;
 }
+
+bool changeWorkingDir(string dir){
+    struct stat info;
+    char *newLoc = cstring(dir);
+    if (stat(newLoc, &info) != 0) {
+        printf("cannot access %s\n", newLoc);
+        return false;
+    }
+    else if (info.st_mode & S_IFDIR) {// S_ISDIR() doesn't exist on my windows
+        printf("%s is a directory\n", newLoc);
+        int re = chdir(newLoc);
+        cout << "chdir returnd" << re << endl;
+        if (re == 0)
+            return true;
+
+    }
+    return false;
+}
+
+
+
+Program::Program(string name, string cmd, int numProcess, int umask, string dir, bool autostart, int autorestart,
+                 vector<int> exit_codes, int startRetries, int startTime, int stopTime, string redirStdout,
+                 string redirStderr, map<char*, char*> env) {
+    this->name = name;
+    this->cmd = cmd;
+    this->numProcess = numProcess;
+    this->numProcessesRunning = 0;
+    this->newUmask = umask;
+    this->dir = dir;
+    this->autostart = autostart;
+    this->autorestart = autorestart;
+    this->exit_codes = exit_codes;
+    this->startRetries = startRetries;
+    this->startTime = startTime;
+    //stop signal
+    this->stopTime = stopTime;
+    this->redirStdout = redirStdout;
+    this->redirStderr = redirStderr;
+    this->env = env;
+}
+
+Program::~Program() {
+
+}
+
 
 bool Program::startProcess() {
     if (cmd.empty())
         return false;
-    pid_t pid = fork();
     int status;
     bool re;
-    int     exere;
-    char    *newcmd = cstring(cmd);
-    char    *args[3];
-    args[0] = "/bin/ls";
-    args[1] = NULL;
-    args[2] = NULL;
+    int exere;
+    char **args = split_string(cmd, ' ');
 
-    switch (pid) {
-        case -1:    //error
-            re = false;
-            break;
-        case 0:     //child
+    pid_t pid = fork();
+    if (pid == -1)    //error
+    {
+        re = false;
+    } else if (pid == 0)     //child
+    {
+        umask(newUmask);
+        if (!redirStderr.empty())
+            if (!redifd(redirStderr, 2)) {
+                cout <<"redir std err faild" << endl;
+                exit(EXIT_FAILURE);
+            }
+        if (!redirStdout.empty())
+            if (!redifd(redirStdout, 1)){
+                cout <<"redir std out faild tryed to re dit to |"<< redirStdout<<"|" << endl;
+                exit(EXIT_FAILURE);
+            }
+        if (!dir.empty())
+            if(!changeWorkingDir(dir)){
+                cout <<"redir working dir faild" << endl;
+                exit(EXIT_FAILURE);
+            }
+        cout << "checking env map"<<endl;
+        for (map<char*, char*>::iterator it=env.begin(); it!=env.end(); ++it) {
+            setenv(it->first, it->second, 1);
+        }
+        extern char **environ;
+        //cout << "cmd " << newcmd << endl << "args " << args[0] << args[1] << args[2] << endl ;
+        exere = execve(args[0], args, environ);
+        cout << "execve returned " << exere << endl;
+        exit(EXIT_FAILURE);
+    } else {  //perent
+        wait(NULL);
+        /*pid_t w;
+        time_t reff;
+        time_t current;
 
-            if (!redirStderr.empty())
-                if (!redifd(redirStderr, 2))
-                    exit(EXIT_FAILURE);
-            if (!redirStdout.empty())
-                if (!redifd(redirStdout, 1))
-                    exit(EXIT_SUCCESS);
-            extern char **environ;
-            //cout << "cmd " << newcmd << endl << "args " << args[0] << args[1] << args[2] << endl ;
-            exere = execve("ls", args, environ);
-            cout << "execve returned " << exere <<endl;
-            exit(EXIT_FAILURE);
-            break;
-        default:     //perent
-            wait(NULL);
-            /*pid_t w;
-            time_t reff;
-            time_t current;
-
-            time(&reff);
+        time(&reff);
+        time(&current);
+        cout << "pid " << pid << " get pid " << getpid() << endl;
+        do {
+            //cout << "time elapsed " << difftime(current, reff) << endl;
             time(&current);
-            cout << "pid " << pid << " get pid " << getpid() << endl;
-            do {
-                //cout << "time elapsed " << difftime(current, reff) << endl;
-                time(&current);
-                w = waitpid(pid, &status, WNOHANG);
-                if (w == -1) {
-                  //  perror("waitpid error:");
-                    //exit(EXIT_FAILURE);
-                }
+            w = waitpid(pid, &status, WNOHANG);
+            if (w == -1) {
+              //  perror("waitpid error:");
+                //exit(EXIT_FAILURE);
+            }
 
-                //cout << "status of chile: " << WEXITSTATUS(status) << endl;
-            } while (difftime(current, reff) <= startTime);*/
-            break;
+            //cout << "status of chile: " << WEXITSTATUS(status) << endl;
+        } while (difftime(current, reff) <= startTime);*/
     }
+    delete[] args;
     return re;
 }
