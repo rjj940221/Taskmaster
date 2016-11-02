@@ -34,8 +34,6 @@ private:
     int stopTime;
     string redirStdout;
     string redirStderr;
-    int numProcessesRunning;
-    vector<pid_t> runningProcesses;
     map<char *, char *> env;
 
 

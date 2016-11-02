@@ -9,27 +9,33 @@
 #include <regex>
 #include <iterator>
 #include "program.h"
+#include "odds.h"
 
 
-typedef struct      s_Process{
-    pid_t           pid;
-    Program         program;
-    int             status;
-    time_t          reffStart;
-    time_t          reffKill;
-    bool            kill;
-    int             numRetry;
-}                   t_Process;
+typedef struct s_Process {
+    pid_t pid;
+    Program program;
+    int status;
+    time_t reffStart;
+    time_t reffKill;
+    bool kill;
+    int numRetry;
+} t_Process;
 
 extern vector<t_Process> processes;
 
 //terminol instructions
-void    processInstruction(string line, LineEdit *shell);
-void    startProcess(vector<string> param, LineEdit *shell);
-void    stopProcess(vector<string> param, LineEdit *shell);
-void    restartProcess(vector<string> param, LineEdit *shell);
-void    helpProcess(vector<string> param, LineEdit *shell);
-bool    isAllPresent(vector<string> param);
+void processInstruction(string line, LineEdit *shell);
+
+void startProcess(vector<string> param, LineEdit *shell);
+
+void stopProcess(vector<string> param, LineEdit *shell);
+
+void restartProcess(vector<string> param, LineEdit *shell);
+
+void helpProcess(vector<string> param, LineEdit *shell);
+
+bool isAllPresent(vector<string> param);
 
 
 //controller functions
