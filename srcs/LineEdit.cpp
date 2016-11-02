@@ -2,7 +2,7 @@
 // Created by Stephen ASIEDU on 2016/10/31.
 //
 
-#include "LineEdit.h"
+#include "../includes/LineEdit.h"
 
 LineEdit::LineEdit() {
     this->cursorPos = 0;
@@ -12,6 +12,7 @@ LineEdit::LineEdit() {
     this->line = "";
     this->exitTaskmaster = false;
     this->prompt = "Taskmaster> ";
+    this->shutdown = false;
     //cout << "lineEdit constructed" << endl;
 }
 
@@ -61,28 +62,29 @@ void        LineEdit::removeFromLine() {
     tputs(tgetstr(del, 0), 0, this->shellWrite);
 }
 
-void        LineEdit::processLine(char *str) {
+bool        LineEdit::processLine(char *str) {
     if (strcmp(str, "exit") == 0 || strcmp(str, "quit") == 0){
         this->exitTaskmaster = true;
         write(1, GREEN, strlen(GREEN));
         write(1, "Taskmaster exited\n", 18);
         write(1, RESET, strlen(RESET));
-        return ;
     }else if (strlen(str) < 1) {
         this->startShell();
-        return;
     }
-    else if (strstr(str, COMMANDS1) == NULL){
+    else if (!goodRule(str)){
         write(1, RED, strlen(RED));
         write(1, "*** Unknown syntax: ", 20);
         write(1, str, strlen(str));
         write(1, RESET, strlen(RESET));
         write(1, "\n", 1);
+        this->startShell();
     }
-    this->startShell();
+    else
+        return true;
+    return false;
 }
 
-void        LineEdit::readCharacter() {
+bool        LineEdit::readCharacter() {
     ssize_t  ret = 0;
     char    buf[4];
 
@@ -93,9 +95,32 @@ void        LineEdit::readCharacter() {
             this->removeFromLine();
         else if(buf[0] == 10){
             write(1, "\n", 1);
-            this->processLine((char *)this->line.data());
+            return (this->processLine((char *)this->line.data()));
         }
         else
             this->addToLine(buf[0]);
     }
+    return false;
+}
+
+bool        goodRule(char *rule){
+    if (strncmp(rule, "start", 5) == 0 && (rule[5] == ' ' || rule[5] == '\0'))
+        return true;
+    if (strncmp(rule, "stop", 4) == 0 && (rule[4] == ' ' || rule[4] == '\0'))
+        return true;
+    if (strncmp(rule, "status", 6) == 0 && (rule[6] == ' ' || rule[6] == '\0'))
+        return true;
+    if (strncmp(rule, "restart", 7) == 0 && (rule[7] == ' ' || rule[7] == '\0'))
+        return true;
+    if (strncmp(rule, "reload", 6) == 0 && (rule[6] == ' ' || rule[6] == '\0'))
+        return true;
+    if (strncmp(rule, "shutdown", 8) == 0 && (rule[8] == ' ' || rule[8] == '\0'))
+        return true;
+    if (strncmp(rule, "help", 4) == 0 && (rule[4] == ' ' || rule[4] == '\0'))
+        return true;
+    if (strncmp(rule, "exit", 4) == 0 && (rule[4] == ' ' || rule[4] == '\0'))
+        return true;
+    if (strncmp(rule, "quit", 4) == 0 && (rule[4] == ' ' || rule[4] == '\0'))
+        return true;
+    return false;
 }

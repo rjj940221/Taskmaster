@@ -41,14 +41,17 @@ private:
 public:
     LineEdit();
     ~LineEdit();
+    bool            shutdown;
     bool            exitTaskmaster;
     void            startShell();
-    void            readCharacter();
-    void            processLine(char *str);
+    bool            readCharacter();
+    bool            processLine(char *str);
+    string          getLine(){ return line; }
     //void            moveCursor(int move);
     //void            scrollHistory(int move);
 
 };
 
+bool        goodRule(char *rule);
 
 #endif //TASKMASTER_LINEEDIT_H
