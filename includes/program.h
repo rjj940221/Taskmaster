@@ -17,10 +17,14 @@
 # include <map>
 # include <sstream>
 # include <fstream>
+# include <math.h>
+# include <cmath>
 # include "defines.h"
 
-
 using namespace std;
+
+void    recordLogError(string prog, string issue);
+void    recordLogProcess(string prog, string process);
 
 
 class Program {

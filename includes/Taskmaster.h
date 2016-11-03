@@ -40,9 +40,7 @@ void    controllerCheck();
 int     isProgramExist(const char *progName);
 void    startInstruction(const char *progName);
 void    stopInstruction(const char *progName);
-
-//log functions
-void    recordLogError(string prog, string issue);
-void    recordLogProcess(string prog, string process);
+void    allStatus();
+void    statusProcess(vector<string> param, LineEdit *shell);
 
 #endif //TASKMASTER_TASKMASTER_H

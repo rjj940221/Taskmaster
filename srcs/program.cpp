@@ -12,13 +12,12 @@ bool changeWorkingDir(string dir){
     struct stat info;
     char *newLoc = cstring(dir);
     if (stat(newLoc, &info) != 0) {
-        printf("cannot access %s\n", newLoc);
+        recordLogError(newLoc, " Access not available");
         return false;
     }
     else if (info.st_mode & S_IFDIR) {// S_ISDIR() doesn't exist on my windows
-        printf("%s is a directory\n", newLoc);
+        recordLogError(newLoc, " Is a directory");
         int re = chdir(newLoc);
-        // cout << "chdir returned " << re << endl;
         if (re == 0)
             return true;
 
@@ -68,26 +67,26 @@ pid_t Program::startProcess() {
         umask(newUmask);
         if (!redirStderr.empty())
             if (!redifd(redirStderr, 2)) {
-                cout <<"redir std err faild" << endl;
+                //cout <<"redir std err faild" << endl;
                 exit(EXIT_FAILURE);
             }
         if (!redirStdout.empty())
             if (!redifd(redirStdout, 1)){
-                cout <<"redir std out faild tryed to re dit to |"<< redirStdout<<"|" << endl;
+                //cout <<"redir std out faild tryed to re dit to |"<< redirStdout<<"|" << endl;
                 exit(EXIT_FAILURE);
             }
         if (!dir.empty())
             if(!changeWorkingDir(dir)){
-                cout <<"redir working dir faild" << endl;
+                //cout <<"redir working dir faild" << endl;
                 exit(EXIT_FAILURE);
             }
-        cout << "checking env map"<<endl;
+        //cout << "checking env map"<<endl;
         for (map<char*, char*>::iterator it=env.begin(); it!=env.end(); ++it) {
             setenv(it->first, it->second, 1);
         }
         extern char **environ;
         exere = execve(args[0], args, environ);
-        cout << "execve returned " << exere << endl;
+        //cout << "execve returned " << exere << endl;
         exit(EXIT_FAILURE);
     } else {  //parent
         delete[] args;

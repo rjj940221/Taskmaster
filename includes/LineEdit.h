@@ -33,10 +33,10 @@ private:
     static int      shellWrite(int c){ return ((int)write(1, &c, 1));}
     void            addToLine(char c);
     void            removeFromLine();
-    //void            moveLeft();
-    //void            moveRight();
-    //void            upHistory();
-    //void            downHistory();
+    void            moveLeft();
+    void            moveRight();
+    void            upHistory();
+    void            downHistory();
 
 public:
     LineEdit();
@@ -47,8 +47,6 @@ public:
     bool            readCharacter();
     bool            processLine(char *str);
     string          getLine(){ return line; }
-    //void            moveCursor(int move);
-    //void            scrollHistory(int move);
 
 };
 

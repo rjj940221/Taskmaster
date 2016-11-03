@@ -33,8 +33,6 @@ void        LineEdit::startShell() {
     tgetent(0, getenv("TERM"));
     tputs(tgetstr(rule, 0), 0, this->shellWrite);
     this->cursorPos = 0;
-    this->historySize = 0;
-    this->historyPos = 0;
     this->lineSize = 0;
     this->line = "";
 }
@@ -45,6 +43,7 @@ void        LineEdit::addToLine(char c) {
 
     this->line.insert(this->cursorPos, 1, c);
     this->cursorPos++;
+    this->lineSize++;
     tputs(tgetstr(modeIn, 0), 0, this->shellWrite);
     write(1, &c, 1);
     tputs(tgetstr(modeOut, 0), 0, this->shellWrite);
@@ -58,11 +57,66 @@ void        LineEdit::removeFromLine() {
         return ;
     this->line.erase(this->cursorPos - 1, 1);
     this->cursorPos--;
+    this->lineSize--;
     tputs(tgetstr(move, 0), 0, this->shellWrite);
     tputs(tgetstr(del, 0), 0, this->shellWrite);
 }
 
+void        LineEdit::moveLeft() {
+    char    move[] = {'l', 'e'};
+
+    if (this->cursorPos < 1)
+        return ;
+    this->cursorPos--;
+    tputs(tgetstr(move, 0), 0, this->shellWrite);
+}
+
+void        LineEdit::moveRight(){
+    char    move[] = {'n', 'd'};
+
+    if (this->cursorPos >= this->lineSize)
+        return ;
+    this->cursorPos++;
+    tputs(tgetstr(move, 0), 0, this->shellWrite);
+}
+
+void        LineEdit::upHistory() {
+    char    move[] = {'r', 'c'};
+    char    move1[] = {'c', 'e'};
+
+    if (this->historyPos == 0)
+        return ;
+    this->historyPos--;
+    this->line = this->history[this->historyPos];
+    this->lineSize = this->line.size();
+    this->cursorPos = this->lineSize;
+    tputs(tgetstr(move, 0), 0, this->shellWrite);
+    tputs(tgetstr(move1, 0), 0, this->shellWrite);
+    write(1, this->line.data(), this->lineSize);
+}
+
+void        LineEdit::downHistory(){
+    char    move[] = {'r', 'c'};
+    char    move1[] = {'c', 'e'};
+
+    if (this->historyPos == this->historySize)
+        return;
+    this->historyPos++;
+    cout << historyPos << endl;
+    this->line = this->history[this->historyPos];
+    this->lineSize = this->line.size();
+    this->cursorPos = this->lineSize;
+    tputs(tgetstr(move, 0), 0, this->shellWrite);
+    tputs(tgetstr(move1, 0), 0, this->shellWrite);
+    write(1, this->line.data(), this->lineSize);
+}
+
 bool        LineEdit::processLine(char *str) {
+    string historyline = str;
+    this->history.push_back(historyline);
+    this->historySize = this->history.size();
+    this->historyPos = historySize;
+
     if (strcmp(str, "exit") == 0 || strcmp(str, "quit") == 0){
         this->exitTaskmaster = true;
         write(1, GREEN, strlen(GREEN));
@@ -99,6 +153,15 @@ bool        LineEdit::readCharacter() {
         }
         else
             this->addToLine(buf[0]);
+    }else if (ret > 1){
+        if (buf[2] == LEFT)
+            this->moveLeft();
+        else if (buf[2] == RIGHT)
+            this->moveRight();
+        else if (buf[2] == UP)
+            this->upHistory();
+        else if (buf[2] == DOWN)
+            this->downHistory();
     }
     return false;
 }

@@ -33,7 +33,7 @@ char **split_string(const string &line, char delim) {
     if (!(re = (char **) malloc(sizeof(char *) * (splits.size() + 1))))
         return NULL;
     int size = splits.size();
-    cout << "number of elements " << splits.size() << endl;
+    //cout << "number of elements " << splits.size() << endl;
     for (int i = 0; i < size; ++i) {
         re[i] = cstring(splits.at(i));
     }
@@ -46,16 +46,16 @@ bool redifd(string file, int fd) {
     char *newLoc = cstring(file);
     bool re;
 
-    cout << "trying to open " << newLoc << endl;
+    //cout << "trying to open " << newLoc << endl;
     newfd = open(newLoc, O_RDWR);
     if (newfd < 0) {
-        cout << "it bork" << endl;
+        //cout << "it bork" << endl;
         re = false;
     } else {
         if (dup2(fd, newfd) == -1)
             re = false;
         else {
-            cout << "it file open" << endl;
+            //cout << "it file open" << endl;
             re = true;
         }
     }

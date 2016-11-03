@@ -8,7 +8,7 @@ void    recordLogError(string prog, string issue){
     time_t     now = time(0);
     struct tm  tstruct;
     char       buf[90];
-    int fd = open("taskmaster.log", O_RDWR | O_APPEND | O_CREAT | 0755);
+    int fd = open("taskmaster.log", O_RDWR | O_APPEND | O_CREAT, 0775);
 
     if (fd == -1)
         return ;
@@ -31,7 +31,7 @@ void    recordLogProcess(string prog, string process){
     time_t     now = time(0);
     struct tm  tstruct;
     char       buf[90];
-    int fd = open("taskmaster.log", O_RDWR | O_APPEND | O_CREAT | 0755);
+    int fd = open("taskmaster.log", O_RDWR | O_APPEND | O_CREAT, 0775);
 
     if (fd == -1)
         return ;

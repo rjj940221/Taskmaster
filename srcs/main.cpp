@@ -24,6 +24,8 @@ int     main(){
     tmp.kill = false;
     processes.push_back(tmp);
 
+    allStatus();
+
     shell.startShell();
     while (!shell.exitTaskmaster){
         ret = shell.readCharacter();

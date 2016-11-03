@@ -21,7 +21,7 @@ static void     startingProcessInstruction(int pos, const char *progName){
         processes[pos].state = RUNNING;
         write(1, BLUE, strlen(BLUE));
         write(1, progName, strlen(progName));
-        write(1, ": started", 9);
+        write(1, ": started\n", 10);
         write(1, RESET, strlen(RESET));
     }else{
         write(1, RED, strlen(RED));

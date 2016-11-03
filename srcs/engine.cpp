@@ -32,7 +32,7 @@ void    processInstruction(string line, LineEdit *shell) {
         return;
     }
     if (strcmp((char *) params[0].data(), "status") == 0){
-        //helpProcess(params, shell);
+        statusProcess(params, shell);
         return;
     }
 }
