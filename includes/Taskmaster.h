@@ -9,22 +9,25 @@
 #include <regex>
 #include <iterator>
 #include <fcntl.h>
+#include <signal.h>
 #include "program.h"
 #include "odds.h"
 
 
-typedef struct s_Process {
-    pid_t pid;
-    Program *program;
-    int status;
-    int state;
-    time_t reffStart;
-    time_t reffKill;
-    bool kill;
-    int numRetry;
-} t_Process;
+typedef struct      s_Process{
+    pid_t           pid;
+    Program         *program;
+    int             status;
+    int             state;
+    time_t          reffStart;
+    time_t          reffKill;
+    bool            kill;
+    int             numRetry;
+}                   t_Process;
+
 
 extern int pop;
+
 extern vector<t_Process> processes;
 
 //terminol instructions
@@ -42,7 +45,7 @@ bool isAllPresent(vector<string> param);
 
 
 //controller functions
-void readFile(string file, bool init);
+bool readFile(string file, bool init);
 
 void controllerCheck();
 
@@ -52,5 +55,9 @@ void startInstruction(const char *progName);
 
 void stopInstruction(const char *progName);
 
+
+//log functions
+void    recordLogError(string prog, string issue);
+void    recordLogProcess(string prog, string process);
 
 #endif //TASKMASTER_TASKMASTER_H

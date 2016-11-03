@@ -6,5 +6,4 @@ void exit(){
         delete(processes.at(i).program);
     }
     processes.clear();
-    delete[]()
 }

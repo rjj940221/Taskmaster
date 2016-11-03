@@ -113,13 +113,17 @@ Program *build_program(YAML::Node pro) {
             }
             delete[] autostartstr;
 
-        } else
+        } else {
+            recordLogError("Input file", "missing expected peramiter");
             return NULL;
-        if (autorestart != 2 && pro["startretries"].IsDefined())
+        }
+        if (autorestart != NEVER && pro["startretries"].IsDefined())
             startRetries = pro["startretries"].as<int>();
         else {
-            if (autorestart != 2)
+            if (autorestart != NEVER) {
+                recordLogError("Input file", "missing expected data startretries");
                 return NULL;
+            }
         }
 
         if (pro["umask"].IsDefined())
@@ -160,21 +164,16 @@ Program *build_program(YAML::Node pro) {
         }
     }
     catch (YAML::Exception exe) {
-        cout << "mismached data type exeption: " << exe.msg << endl;
+        //recordLogError("load file", "mismached data type exeption: " + exe.msg );
         return (NULL);
     }
-    cout << " got file data" << endl;
     Program *re;
-    if (!(re = (Program *) malloc(sizeof(Program))))
-        return NULL;
-    Program temp(name, cmd, numProcess, newUmask, dir, autostart, autorestart, exit_codes, startRetries, startTime,
+    re = new Program (name, cmd, numProcess, newUmask, dir, autostart, autorestart, exit_codes, startRetries, startTime,
                  stopSignal, stopTime, redirStdout, redirStderr, env);
-    cout << "program instant made" << endl;
-    re = &temp;
     return (re);
 }
 
-int checkIfProcecExsaists(Program *pro) {
+int checkIfProcecExsists(Program *pro) {
     for (int i = 0; i < processes.size(); ++i) {
         if (processes.at(i).program->getName().compare(pro->getName()) == 0)
             return (i);
@@ -182,35 +181,37 @@ int checkIfProcecExsaists(Program *pro) {
     return (-1);
 }
 
-void readFile(string file, bool init) {
+bool readFile(string file, bool init) {
     YAML::Node config;
     YAML::Node programs;
     t_Process add;
-    Program *addpro;
 
     try {
         config = YAML::LoadFile(file);
         programs = config["Programs"];
+    }
+    catch (YAML::Exception exe) {
+     recordLogError("load file", "Error opening file");
+        return false;
+    }
+    try {
         int count = 0;
 
         for (YAML::const_iterator it = programs.begin(); it != programs.end(); ++it) {
             count++;
             const YAML::Node &iter = *it;
+            Program *addpro;
 
             addpro = build_program(iter);
-            cout << "program inctant returnd" << endl;
             if (addpro) {
-                cout << "name: " << addpro->getName() << endl;
                 add.program = addpro;
-                cout << "added program";
                 add.kill = false;
                 add.numRetry = 0;
                 add.pid = 0;
                 add.state = NOSTART;
 
-                int programindex = checkIfProcecExsaists(addpro);
+                int programindex = checkIfProcecExsists(addpro);
                 if (programindex == -1) {
-                    cout << "succesfuly built program at index " << count << endl;
                     if (addpro->getAutostart()) {
                         add.pid = addpro->startProcess();
                         add.state = STARTING;
@@ -222,16 +223,17 @@ void readFile(string file, bool init) {
                         delete processes.at(programindex).program;
                         processes.at(programindex).program = addpro;
                     } else {
-                        cout << "program name allready exsists" << endl;
-                        delete (addpro);
+                        ;//recordLogError("load file", "program name allready exsists at index " + programindex);
                     }
                 }
             } else
-                cout << "failed to build program at index " << count << endl;
+                 ;//recordLogError("load file","failed to build program at index " + count);
         }
     }
     catch (YAML::Exception exe) {
-        cout << "Error reading file";
+        recordLogError("load file","Error extracting data");
+        return false;
     }
+    return true;
 }
 

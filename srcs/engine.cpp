@@ -31,6 +31,10 @@ void    processInstruction(string line, LineEdit *shell) {
         helpProcess(params, shell);
         return;
     }
+    if (strcmp((char *) params[0].data(), "status") == 0){
+        //helpProcess(params, shell);
+        return;
+    }
 }
 
 

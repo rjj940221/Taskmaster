@@ -13,10 +13,8 @@
 # include <map>
 # include <sstream>
 # include <fstream>
+# include "defines.h"
 
-#define NEVER 0
-#define ALWAYS 1
-#define UNEXPECTED 2
 
 
 using namespace std;
@@ -43,9 +41,11 @@ private:
 
 public:
     Program();
+
     Program(string name, string cmd, int numProcess, int umask, string dir, bool autostart, int autorestart,
             vector<int> exit_codes, int startRetries, int startTime, int stopsignal, int stopTime, string redirStdout,
             string redirStderr, map<char *, char *> env);
+
     ~Program();
 
     string getName() { return this->name; };
@@ -110,6 +110,8 @@ public:
     pid_t startProcess();
 
     bool checkExitStat(int status);
+
+    Program& operator=(Program arg);
 };
 
 #endif //TASKMASTER_PROGRAM_H

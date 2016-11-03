@@ -48,4 +48,8 @@
 #define NOSTART 5
 #define DEAD 6
 
+#define NEVER 0
+#define ALWAYS 1
+#define UNEXPECTED 2
+
 #endif //TASKMASTER_DEFINES_H

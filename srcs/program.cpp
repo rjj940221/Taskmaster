@@ -8,11 +8,11 @@ bool changeWorkingDir(string dir){
     struct stat info;
     char *newLoc = cstring(dir);
     if (stat(newLoc, &info) != 0) {
-        printf("cannot access %s\n", newLoc);
+        //printf("cannot access %s\n", newLoc);
         return false;
     }
     else if (info.st_mode & S_IFDIR) {// S_ISDIR() doesn't exist on my windows
-        printf("%s is a directory\n", newLoc);
+        //printf("%s is a directory\n", newLoc);
         int re = chdir(newLoc);
         // cout << "chdir returned " << re << endl;
         if (re == 0)
@@ -64,6 +64,7 @@ pid_t Program::startProcess() {
         return (-1);
     } else if (pid == 0)     //child
     {
+        setpgid(0, 0);
         umask(newUmask);
         if (!redirStderr.empty())
             if (!redifd(redirStderr, 2)) {
@@ -72,7 +73,7 @@ pid_t Program::startProcess() {
             }
         if (!redirStdout.empty())
             if (!redifd(redirStdout, 1)){
-                cout <<"redir std out faild tryed to re dit to |"<< redirStdout<<"|" << endl;
+                cout <<"redir std out faild" << endl;
                 exit(EXIT_FAILURE);
             }
         if (!dir.empty())
@@ -80,12 +81,12 @@ pid_t Program::startProcess() {
                 cout <<"redir working dir faild" << endl;
                 exit(EXIT_FAILURE);
             }
-        cout << "checking env map"<<endl;
+        //cout << "checking env map"<<endl;
         for (map<char*, char*>::iterator it=env.begin(); it!=env.end(); ++it) {
             setenv(it->first, it->second, 1);
         }
         extern char **environ;
-        cout << "launched" << endl;
+        //cout << "launched" << endl;
         exere = execve(args[0], args, environ);
         cout << "execve returned " << exere << endl;
         exit(EXIT_FAILURE);
@@ -94,8 +95,6 @@ pid_t Program::startProcess() {
         delete[] args;
         return pid;
     }
-    // delete[] args;
-    // return re;
 }
 
 bool Program::checkExitStat(int status) {
@@ -104,4 +103,24 @@ bool Program::checkExitStat(int status) {
             return true;
     }
     return false;
+}
+
+Program& Program::operator=(Program arg) // copy/move constructor is called to construct arg
+{
+    this->name = arg.name;
+    this->cmd = arg.cmd;
+    this->numProcess = arg.numProcess;
+    this->newUmask = arg.newUmask;
+    this->dir = arg.dir;
+    this->autostart = arg.autostart;
+    this->autorestart = arg.autorestart;
+    this->exit_codes = arg.exit_codes;
+    this->startRetries = arg.startRetries;
+    this->startTime = arg.startTime;
+    this->stopsignal = arg.stopsignal;
+    this->stopTime = arg.stopTime;
+    this->redirStdout = arg.redirStdout;
+    this->redirStderr = arg.redirStderr;
+    this->env = arg.env; // resources are exchanged between *this and arg
+    return *this;
 }

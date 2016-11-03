@@ -4,23 +4,23 @@
 vector<t_Process> processes;
 
 int     main(int ac, char **av){
-    LineEdit    shell;
+   LineEdit    shell;
     bool        ret;
+
     if (ac == 2) {
         readFile(av[1], true);
 
         shell.startShell();
-        while (!shell.exitTaskmaster) {
+        while (!shell.exitTaskmaster){
             ret = shell.readCharacter();
-            if (ret) {
+            controllerCheck();
+            if (ret){
                 processInstruction(shell.getLine(), &shell);
                 shell.startShell();
             }
-
         }
     }else{
         cout << "Please passe a config.yaml" << endl;
     }   //controllerCheck();
-
-    return (0);
+        return (0);
 }

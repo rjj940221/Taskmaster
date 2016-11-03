@@ -4,7 +4,31 @@
 
 #include "../includes/Taskmaster.h"
 
-void    stopInstruction(const char *progName){
+static void     stopProcessInstruction(int pos, const char *progName){
+    pid_t   wait;
+    time_t  current;
+
+    time(&processes[pos].reffKill);
+    time(&current);
+    kill(processes[pos].pid, processes[pos].program->getStopSignal());
+    wait = waitpid(processes[pos].pid, &processes[pos].status, WNOHANG);
+    while (difftime(current, processes[pos].reffKill) < (double)processes[pos].program->getStopTime()){
+        wait = waitpid(processes[pos].pid, &processes[pos].status, WNOHANG);
+        if (wait != 0)
+            break ;
+        time(&current);
+    }
+    if (wait == 0)
+        kill(processes[pos].pid, SIGKILL);
+    processes[pos].state = STOPPED;
+    processes[pos].reffKill = current;
+    write(1, CYAN, strlen(CYAN));
+    write(1, progName, strlen(progName));
+    write(1, ": stopped\n", 10);
+    write(1, RESET, strlen(RESET));
+}
+
+void            stopInstruction(const char *progName){
     int     pos = isProgramExist(progName);
 
     if (pos == -1){
@@ -15,7 +39,7 @@ void    stopInstruction(const char *progName){
         return ;
     }
     if (processes[pos].state == RUNNING){
-        //stop it
+        stopProcessInstruction(pos, progName);
     }else if (processes[pos].state == STOPPED){
         write(1, RED, strlen(RED));
         write(1, progName, strlen(progName));
@@ -30,7 +54,7 @@ void    stopInstruction(const char *progName){
     }
 }
 
-void    stopProcess(vector<string> param, LineEdit *shell){
+void            stopProcess(vector<string> param, LineEdit *shell){
     if (shell->shutdown){
         write(1, "temp", 4);
         return ;
@@ -49,7 +73,7 @@ void    stopProcess(vector<string> param, LineEdit *shell){
     }
     else{
         for(size_t i = 1; i < param.size(); i++){
-            cout << "stopping " << param[i].data() << endl;
+            stopInstruction(param[i].data());
         }
     }
 }
