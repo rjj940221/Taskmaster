@@ -14,6 +14,10 @@
 # include <sstream>
 # include <fstream>
 
+#define NEVER 0
+#define ALWAYS 1
+#define UNEXPECTED 2
+
 
 using namespace std;
 
@@ -39,11 +43,9 @@ private:
 
 public:
     Program();
-
     Program(string name, string cmd, int numProcess, int umask, string dir, bool autostart, int autorestart,
             vector<int> exit_codes, int startRetries, int startTime, int stopsignal, int stopTime, string redirStdout,
             string redirStderr, map<char *, char *> env);
-
     ~Program();
 
     string getName() { return this->name; };
@@ -51,7 +53,6 @@ public:
     string getCmd() { return this->cmd; };
 
     int getNumProcess() { return this->numProcess; };
-
     //do umask
     string getDir() { return this->dir; };
 

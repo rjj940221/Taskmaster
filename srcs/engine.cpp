@@ -41,3 +41,11 @@ bool    isAllPresent(vector<string> param){
     }
     return false;
 }
+
+int     isProgramExist(const char *progName){
+    for (int i = 0; i < processes.size(); i++){
+        if (strcmp(progName, processes[i].program->getName().data()) == 0)
+            return i;
+    }
+    return -1;
+}

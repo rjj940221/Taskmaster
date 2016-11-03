@@ -40,4 +40,12 @@
 #define HELP5 "help\t\tPrint a list of available actions\n"
 #define HELP6 "help <action>\tPrint help for <action>\n"
 
+#define STARTING 0
+#define STOPPED 1
+#define FATAL 2
+#define RUNNING 3
+#define BACKOFF 4
+#define NOSTART 5
+#define DEAD 6
+
 #endif //TASKMASTER_DEFINES_H

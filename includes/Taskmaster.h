@@ -2,27 +2,29 @@
 // Created by Stephen ASIEDU on 2016/11/01.
 //
 
-#ifndef TASKMASTER_TASKMASTER_H
-#define TASKMASTER_TASKMASTER_H
+#ifndef TASKMASTER_H
+# define TASKMASTER_H
 
 #include "LineEdit.h"
 #include <regex>
 #include <iterator>
+#include <fcntl.h>
 #include "program.h"
 #include "odds.h"
 
 
 typedef struct s_Process {
     pid_t pid;
-    Program program;
+    Program *program;
     int status;
+    int state;
     time_t reffStart;
     time_t reffKill;
     bool kill;
     int numRetry;
-    int state;
 } t_Process;
 
+extern int pop;
 extern vector<t_Process> processes;
 
 //terminol instructions
@@ -40,6 +42,15 @@ bool isAllPresent(vector<string> param);
 
 
 //controller functions
-void initProcecces(string file);
+void readFile(string file, bool init);
+
+void controllerCheck();
+
+int isProgramExist(const char *progName);
+
+void startInstruction(const char *progName);
+
+void stopInstruction(const char *progName);
+
 
 #endif //TASKMASTER_TASKMASTER_H

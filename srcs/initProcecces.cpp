@@ -102,11 +102,11 @@ Program *build_program(YAML::Node pro) {
 
             char *autostartstr = cstring(pro["autorestart"].as<string>());
             if (strcmp(autostartstr, "always") == 0)
-                autorestart = 1;
+                autorestart = ALWAYS;
             else if (strcmp(autostartstr, "never") == 0)
-                autorestart = 2;
+                autorestart = NEVER;
             else if (strcmp(autostartstr, "unexpected") == 0)
-                autorestart = 3;
+                autorestart = UNEXPECTED;
             else {
                 delete[] autostartstr;
                 return NULL;
@@ -163,16 +163,26 @@ Program *build_program(YAML::Node pro) {
         cout << "mismached data type exeption: " << exe.msg << endl;
         return (NULL);
     }
+    cout << " got file data" << endl;
     Program *re;
     if (!(re = (Program *) malloc(sizeof(Program))))
         return NULL;
     Program temp(name, cmd, numProcess, newUmask, dir, autostart, autorestart, exit_codes, startRetries, startTime,
                  stopSignal, stopTime, redirStdout, redirStderr, env);
+    cout << "program instant made" << endl;
     re = &temp;
     return (re);
 }
 
-void initProcecces(string file) {
+int checkIfProcecExsaists(Program *pro) {
+    for (int i = 0; i < processes.size(); ++i) {
+        if (processes.at(i).program->getName().compare(pro->getName()) == 0)
+            return (i);
+    }
+    return (-1);
+}
+
+void readFile(string file, bool init) {
     YAML::Node config;
     YAML::Node programs;
     t_Process add;
@@ -187,28 +197,41 @@ void initProcecces(string file) {
             count++;
             const YAML::Node &iter = *it;
 
-            if ((addpro = build_program(iter))) {
-                add.program = *addpro;
+            addpro = build_program(iter);
+            cout << "program inctant returnd" << endl;
+            if (addpro) {
+                cout << "name: " << addpro->getName() << endl;
+                add.program = addpro;
+                cout << "added program";
                 add.kill = false;
                 add.numRetry = 0;
-                if (addpro->getAutostart()) {
-                    add.pid = addpro->startProcess();
-                    add.state = STARTING;
+                add.pid = 0;
+                add.state = NOSTART;
+
+                int programindex = checkIfProcecExsaists(addpro);
+                if (programindex == -1) {
+                    cout << "succesfuly built program at index " << count << endl;
+                    if (addpro->getAutostart()) {
+                        add.pid = addpro->startProcess();
+                        add.state = STARTING;
+                        time(&add.reffStart);
+                    }
+                    processes.push_back(add);
+                } else {
+                    if (init == false) {
+                        delete processes.at(programindex).program;
+                        processes.at(programindex).program = addpro;
+                    } else {
+                        cout << "program name allready exsists" << endl;
+                        delete (addpro);
+                    }
                 }
-                else {
-                    add.pid = 0;
-                    add.state = NOSTART;
-                }
-                cout << "succesfuly built program at index " << count << endl;
-                processes.push_back(add);
-            }
-            else
+            } else
                 cout << "failed to build program at index " << count << endl;
         }
     }
-    catch(YAML::Exception exe)
-    {
+    catch (YAML::Exception exe) {
         cout << "Error reading file";
     }
-
 }
+

@@ -1,7 +1,3 @@
-//
-// Created by Stephen ASIEDU on 2016/10/31.
-//
-
 #include "../includes/program.h"
 #include "../includes/odds.h"
 
@@ -24,6 +20,10 @@ bool changeWorkingDir(string dir){
 
     }
     return false;
+}
+
+Program::Program() {
+
 }
 
 Program::Program(string name, string cmd, int numProcess, int umask, string dir, bool autostart, int autorestart,
@@ -85,34 +85,12 @@ pid_t Program::startProcess() {
             setenv(it->first, it->second, 1);
         }
         extern char **environ;
-        //cout << "cmd " << newcmd << endl << "args " << args[0] << args[1] << args[2] << endl ;
+        cout << "launched" << endl;
         exere = execve(args[0], args, environ);
         cout << "execve returned " << exere << endl;
         exit(EXIT_FAILURE);
     } else {  //perent
-        //wait(NULL);
-        /*pid_t w;
-        bool    gotExit = false;
-        time_t reff;
-        time_t current;
-        time(&reff);
-        time(&current);
-        re = pid;
-        cout << "pid " << pid << " get pid " << getpid() << endl;
-        do {
-            //cout << "time elapsed " << difftime(current, reff) << endl;
-            time(&current);
-            w = waitpid(pid, &status, WNOHANG);
-            if (w == -1) {
-                perror("waitpid error:");
-                //exit(EXIT_FAILURE);
-            }
-            else if (w != 0) {
-                cout << "got exit status of chile: " << WEXITSTATUS(status) << endl;
-                gotExit = true;
-                checkExitStat(WEXITSTATUS(status));
-            }
-        } while (difftime(current, reff) <= startTime && gotExit == false);*/
+
         delete[] args;
         return pid;
     }

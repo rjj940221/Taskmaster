@@ -47,7 +47,7 @@ bool redifd(string file, int fd) {
     bool re;
 
     cout << "trying to open " << newLoc << endl;
-    newfd = open(newLoc, O_RDWR);
+    newfd = open(newLoc, O_RDWR | O_CREAT | 0755);
     if (newfd < 0) {
         cout << "it bork" << endl;
         re = false;
