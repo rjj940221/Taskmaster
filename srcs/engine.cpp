@@ -31,6 +31,10 @@ void    processInstruction(string line, LineEdit *shell) {
         helpProcess(params, shell);
         return;
     }
+    if (strcmp((char *) params[0].data(), "status") == 0){
+        //helpProcess(params, shell);
+        return;
+    }
 }
 
 
@@ -44,7 +48,7 @@ bool    isAllPresent(vector<string> param){
 
 int     isProgramExist(const char *progName){
     for (int i = 0; i < processes.size(); i++){
-        if (strcmp(progName, processes[i].program.getName().data()) == 0)
+        if (strcmp(progName, processes[i].program->getName().data()) == 0)
             return i;
     }
     return -1;

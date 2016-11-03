@@ -3,6 +3,34 @@
 //
 #include "../includes/Taskmaster.h"
 
+static void     startingProcessInstruction(int pos, const char *progName){
+    pid_t   wait;
+    time_t  current;
+
+    processes[pos].pid = processes[pos].program->startProcess();
+    time(&processes[pos].reffStart);
+    time(&current);
+    wait = waitpid(processes[pos].pid, &processes[pos].status, WNOHANG);
+    while (difftime(current, processes[pos].reffStart) < (double)processes[pos].program->getStartTime()){
+        wait = waitpid(processes[pos].pid, &processes[pos].status, WNOHANG);
+        if (wait != 0)
+            break ;
+        time(&current);
+    }
+    if (wait == 0){
+        processes[pos].state = RUNNING;
+        write(1, BLUE, strlen(BLUE));
+        write(1, progName, strlen(progName));
+        write(1, ": started", 9);
+        write(1, RESET, strlen(RESET));
+    }else{
+        write(1, RED, strlen(RED));
+        write(1, progName, strlen(progName));
+        write(1, ": failed to started\n", 20);
+        write(1, RESET, strlen(RESET));
+    }
+}
+
 void    startInstruction(const char *progName){
     int     pos = isProgramExist(progName);
 
@@ -14,7 +42,7 @@ void    startInstruction(const char *progName){
         return ;
     }
     if (processes[pos].state == STOPPED){
-        //start it
+        startingProcessInstruction(pos, progName);
     }else if (processes[pos].state == RUNNING){
         write(1, RED, strlen(RED));
         write(1, progName, strlen(progName));

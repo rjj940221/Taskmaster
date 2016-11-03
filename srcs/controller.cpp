@@ -4,39 +4,63 @@
 
 #include "../includes/Taskmaster.h"
 
+static void     restartAlways(size_t index){
+    if (processes[index].numRetry < processes[index].program->getStartRetries()){
+        processes[index].pid = processes[index].program->startProcess();
+        processes[index].state = STARTING;
+        time(&processes[index].reffStart);
+        processes[index].numRetry++;
+    }
+}
+
+static void     restartUnexpected(size_t index){
+    if (!processes[index].program->checkExitStat(WEXITSTATUS(processes[index].status))){
+        if (processes[index].numRetry < processes[index].program->getStartRetries()){
+            processes[index].pid = processes[index].program->startProcess();
+            processes[index].state = STARTING;
+            time(&processes[index].reffStart);
+            processes[index].numRetry++;
+        }
+    }else
+        processes[index].state = BACKOFF;
+}
+
+static void     checkKill(size_t index){
+    pid_t   wait;
+    time_t  current;
+
+    wait = waitpid(processes[index].pid, &processes[index].status, WNOHANG);
+    if (wait == 0){
+        time(&current);
+        if (difftime(current, processes[index].reffKill) >= (double)processes[index].program->getStopTime()){
+            kill(processes[index].pid, SIGKILL);
+        }
+    }else{
+        processes[index].state = STOPPED;
+        processes[index].kill = false;
+    }
+}
+
 static void     checkStartProcess(size_t index){
     time_t  current;
     pid_t   wait;
 
+    if (processes[index].state == STOPPED || processes[index].state == FATAL || processes[index].state == NOSTART || processes[index].state == BACKOFF || processes[index].state == DEAD)
+        return ;
     wait = waitpid(processes[index].pid, &processes[index].status, WNOHANG);
     if (wait == -1){
-        /*if (processes[index].numRetry < processes[index].program.getStartRetries() && processes[index].program.getAutorestart() ==  ALWAYS){
-            processes[index].pid = processes[index].program.startProcess();
-            processes[index].state = STARTING;
-            time(&processes[index].reffStart);
-            processes[index].numRetry++;
-        }else*/
-            processes[index].state = FATAL;
-        string err = processes[index].program.getStderr();
-        int fd = open(err.data(), O_RDWR | O_APPEND | O_CREAT | 0755);
-        write(fd, "Failed to fork\n", 15);
-        close(fd);
+        recordLogError(processes[index].program->getName(), "Failed to fork process.");
     }else if (wait != 0){
-        vector<int>     exitCodes = processes[index].program.getExitCodes();
-        for (int i = 0; i < exitCodes.size(); i++){
-            if (exitCodes.at(i) == processes[index].status && processes[index].program.getAutorestart() !=  NEVER){
-                if (processes[index].numRetry < processes[index].program.getStartRetries()){
-                    processes[index].pid = processes[index].program.startProcess();
-                    processes[index].state = STARTING;
-                    time(&processes[index].reffStart);
-                    processes[index].numRetry++;
-                }
-            }else
-                processes[index].state = DEAD;
+        if (processes[index].program->getAutorestart() == ALWAYS)
+            restartAlways(index);
+        else if (processes[index].program->getAutorestart() == UNEXPECTED)
+            restartUnexpected(index);
+        else{
+            processes[index].state = BACKOFF;
         }
     }else{
         time(&current);
-        if (difftime(current, processes[index].reffStart) >= (double)processes[index].program.getStartTime()){
+        if (difftime(current, processes[index].reffStart) >= (double)processes[index].program->getStartTime()){
             processes[index].state = RUNNING;
         }
     }
@@ -45,8 +69,8 @@ static void     checkStartProcess(size_t index){
 void            controllerCheck(){
     for (size_t i= 0; i < processes.size(); i++){
         if (processes[i].kill){
-            //work on kill
-        }else {
+            checkKill(i);
+        }else{
             checkStartProcess(i);
         }
     }

@@ -40,7 +40,7 @@ void    restartProcess(vector<string> param, LineEdit *shell){
     }
     else{
         for(size_t i = 1; i < param.size(); i++){
-            cout << "restarting " << param[i].data() << endl;
+            restartInstruction(param[i].data());
         }
     }
 }

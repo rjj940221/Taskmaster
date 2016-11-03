@@ -9,11 +9,12 @@
 #include <regex>
 #include <iterator>
 #include <fcntl.h>
+#include <signal.h>
 #include "program.h"
 
 typedef struct      s_Process{
     pid_t           pid;
-    Program         program;
+    Program         *program;
     int             status;
     int             state;
     time_t          reffStart;
@@ -39,5 +40,9 @@ void    controllerCheck();
 int     isProgramExist(const char *progName);
 void    startInstruction(const char *progName);
 void    stopInstruction(const char *progName);
+
+//log functions
+void    recordLogError(string prog, string issue);
+void    recordLogProcess(string prog, string process);
 
 #endif //TASKMASTER_TASKMASTER_H
