@@ -20,6 +20,7 @@ typedef struct s_Process {
     time_t reffKill;
     bool kill;
     int numRetry;
+    int state;
 } t_Process;
 
 extern vector<t_Process> processes;

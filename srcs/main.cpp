@@ -1,6 +1,8 @@
 #include <yaml-cpp/yaml.h>
 #include "../includes/Taskmaster.h"
 
+vector<t_Process> processes;
+
 int main(int ac, char **av) {
     initProcecces(av[1]);
     /*LineEdit shell;

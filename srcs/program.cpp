@@ -27,7 +27,7 @@ bool changeWorkingDir(string dir){
 }
 
 Program::Program(string name, string cmd, int numProcess, int umask, string dir, bool autostart, int autorestart,
-                 vector<int> exit_codes, int startRetries, int startTime, int stopTime, string redirStdout,
+                 vector<int> exit_codes, int startRetries, int startTime,int stopsignal, int stopTime, string redirStdout,
                  string redirStderr, map<char*, char*> env) {
     this->name = name;
     this->cmd = cmd;
@@ -39,7 +39,7 @@ Program::Program(string name, string cmd, int numProcess, int umask, string dir,
     this->exit_codes = exit_codes;
     this->startRetries = startRetries;
     this->startTime = startTime;
-    //stop signal
+    this->stopsignal = stopsignal;
     this->stopTime = stopTime;
     this->redirStdout = redirStdout;
     this->redirStderr = redirStderr;

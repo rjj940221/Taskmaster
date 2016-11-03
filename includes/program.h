@@ -30,7 +30,7 @@ private:
     vector<int> exit_codes;
     int startRetries;
     int startTime;
-    //stop signal
+    int stopsignal;
     int stopTime;
     string redirStdout;
     string redirStderr;
@@ -41,7 +41,7 @@ public:
     Program();
 
     Program(string name, string cmd, int numProcess, int umask, string dir, bool autostart, int autorestart,
-            vector<int> exit_codes, int startRetries, int startTime, int stopTime, string redirStdout,
+            vector<int> exit_codes, int startRetries, int startTime, int stopsignal, int stopTime, string redirStdout,
             string redirStderr, map<char *, char *> env);
 
     ~Program();
@@ -65,13 +65,15 @@ public:
 
     int getStartTime() { return this->startTime; };
 
-    //stop signal
+    int getStopSignal() { return this->stopsignal; };
+
     int getStopTime() { return this->stopTime; };
 
     string getStdout() { return this->redirStdout; };
 
     string getStderr() { return this->redirStderr; };
-    //env
+
+    map<char*, char*> getEnv() { return this->env; };
 
 
     void setName(string name) { this->name = name; };
@@ -80,7 +82,8 @@ public:
 
     void setNumProcess(int numProc) { this->numProcess = numProc; };
 
-    //do umask
+    void setUmask(int newUmask) {this->newUmask = newUmask;};
+
     void setDir(string dir) { this->dir = dir; };
 
     void setAutostart(bool autostart) { this->autostart = autostart; };
@@ -93,14 +96,16 @@ public:
 
     void setStartTime(int startTime) { this->startTime = startTime; };
 
-    //stop signal
+    void setStopSignal(int stopSignal) {this->stopsignal = stopSignal;};
+
     void setStopTime(int stopTime) { this->stopTime = stopTime; };
 
     void setStdout(string redirStdout) { this->redirStdout = redirStdout; };
 
     void setStderr(string redirStderr) { this->redirStderr = redirStderr; };
 
-    //env
+    void setEnv(map<char*, char*> env) { this->env = env; };
+
     pid_t startProcess();
 
     bool checkExitStat(int status);
