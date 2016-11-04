@@ -46,16 +46,18 @@ bool redifd(string file, int fd) {
     char *newLoc = cstring(file);
     bool re;
 
-    //cout << "trying to open " << newLoc << endl;
-    newfd = open(newLoc, O_RDWR);
+    char mesege[255];
+    sprintf(mesege, "trying to open %s", newLoc);
+    recordLogError("redirecting", mesege);
+    newfd = open(newLoc, O_RDWR | O_CREAT , 0775);
     if (newfd < 0) {
-        //cout << "it bork" << endl;
+        recordLogError("redirecting", "failed to open file location");
         re = false;
     } else {
         if (dup2(fd, newfd) == -1)
             re = false;
         else {
-            //cout << "it file open" << endl;
+            recordLogError("redirecting", "opened file location");
             re = true;
         }
     }

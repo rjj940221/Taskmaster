@@ -102,7 +102,6 @@ void        LineEdit::downHistory(){
     if (this->historyPos == this->historySize)
         return;
     this->historyPos++;
-    cout << historyPos << endl;
     this->line = this->history[this->historyPos];
     this->lineSize = this->line.size();
     this->cursorPos = this->lineSize;

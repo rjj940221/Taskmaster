@@ -17,7 +17,7 @@ void    recordLogError(string prog, string issue){
     buf[0] = '[';
     strftime(&buf[0], sizeof(buf) - 1, "%A %d %B %Y %X", &tstruct);
     buf[strlen(buf)] = ']';
-    buf[strlen(buf) + 1] = '\t';
+    buf[strlen(buf) + 1] = ' ';
     write(fd, RED, strlen(RED));
     write(fd, buf, strlen(buf));
     write(fd, prog.data(), prog.size());

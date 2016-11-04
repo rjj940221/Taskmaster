@@ -11,6 +11,7 @@
 #include <fcntl.h>
 #include <signal.h>
 #include "program.h"
+#include "odds.h"
 
 typedef struct      s_Process{
     pid_t           pid;
@@ -42,5 +43,6 @@ void    startInstruction(const char *progName);
 void    stopInstruction(const char *progName);
 void    allStatus();
 void    statusProcess(vector<string> param, LineEdit *shell);
+bool    readFile(string file, bool init);
 
 #endif //TASKMASTER_TASKMASTER_H
