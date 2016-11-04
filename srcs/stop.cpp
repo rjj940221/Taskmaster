@@ -69,7 +69,9 @@ void            stopProcess(vector<string> param, LineEdit *shell){
         return ;
     }
     if (isAllPresent(param)){
-        cout << "stopping all" << endl;
+        for(size_t i = 0; i < processes.size(); i++){
+            stopInstruction(processes[i].program->getName().data());
+        }
     }
     else{
         for(size_t i = 1; i < param.size(); i++){

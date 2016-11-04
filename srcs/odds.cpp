@@ -61,6 +61,7 @@ bool redifd(string file, int fd) {
             recordLogError("redirection", "replacement of file descriptor failed");
             re = false;
         } else {
+
             re = true;
         }
     }

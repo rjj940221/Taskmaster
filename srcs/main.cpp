@@ -1,7 +1,9 @@
+
 #include <yaml-cpp/yaml.h>
 #include "../includes/Taskmaster.h"
 
 vector<t_Process> processes;
+
 
 int main(int ac, char **av) {
     LineEdit shell;
@@ -21,8 +23,12 @@ int main(int ac, char **av) {
 
             }
         }
+        tcsetattr(0, TCSANOW, &shell.oldSettings);
     } else {
         cout << "Please passe a .yaml config flie" << endl;
     }
+
+
+
     return (0);
 }

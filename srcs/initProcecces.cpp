@@ -168,8 +168,8 @@ Program *build_program(YAML::Node pro) {
         return (NULL);
     }
     Program *re;
-    re = new Program (name, cmd, numProcess, newUmask, dir, autostart, autorestart, exit_codes, startRetries, startTime,
-                 stopSignal, stopTime, redirStdout, redirStderr, env);
+    re = new Program(name, cmd, numProcess, newUmask, dir, autostart, autorestart, exit_codes, startRetries, startTime,
+                     stopSignal, stopTime, redirStdout, redirStderr, env);
     return (re);
 }
 
@@ -191,7 +191,7 @@ bool readFile(string file, bool init) {
         programs = config["Programs"];
     }
     catch (YAML::Exception exe) {
-     recordLogError("load file", "Error opening file");
+        recordLogError("load file", "Error opening file");
         return false;
     }
     try {
@@ -223,15 +223,24 @@ bool readFile(string file, bool init) {
                         delete processes.at(programindex).program;
                         processes.at(programindex).program = addpro;
                     } else {
-                        ;//recordLogError("load file", "program name allready exsists at index " + programindex);
+                        char msg[300];
+                        sprintf(msg, "program name allready exsists at index %d", programindex);
+                        recordLogError("load file", msg);
                     }
                 }
-            } else
-                 ;//recordLogError("load file","failed to build program at index " + count);
+            } else {
+                char msg[300];
+                sprintf(msg, "failed to build program at index %d in config file", count);
+                recordLogError("load file", msg);
+            }
+
         }
+
     }
-    catch (YAML::Exception exe) {
-        recordLogError("load file","Error extracting data");
+    catch (
+            YAML::Exception exe
+    ) {
+        recordLogError("load file", "Error extracting data");
         return false;
     }
     return true;

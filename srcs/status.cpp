@@ -25,7 +25,7 @@ static void     runningStatus(size_t index){
     mins = fmod(mins, 60);
     hrs = fmod(fmod(diff/60, 60), 60);
     write(1, BLUE, strlen(BLUE));
-    printf("%-30s %-11s pid %d, uptime %d:%d:%d\n", processes[index].program->getName().data(), "RUNNING",
+    printf("%-30s %-11s pid %d, uptime %d:%02d:%02d\n", processes[index].program->getName().data(), "RUNNING",
            processes[index].pid, (int)hrs, (int)mins, (int)secs);
     write(1, RESET, strlen(RESET));
 }
@@ -79,6 +79,26 @@ void            statusProcess(vector<string> param, LineEdit *shell){
     if (param.size() < 2 || isAllPresent(param)){
         allStatus();
     }else{
-        //specific status
+        for(size_t i = 1; i < param.size(); i++){
+            int     pos = isProgramExist(param[i].data());
+
+            if (pos == -1){
+                write(1, RED, strlen(RED));
+                write(1, param[i].data(), strlen(param[i].data()));
+                write(1, ": ERROR (no such process)\n", 26);
+                write(1, RESET, strlen(RESET));
+            }else{
+                if (processes[pos].state == STARTING)
+                    startStatus((size_t)pos);
+                else if (processes[pos].state == RUNNING)
+                    runningStatus((size_t)pos);
+                else if (processes[pos].state == FATAL)
+                    fatalStatus((size_t)pos);
+                else if (processes[pos].state == BACKOFF)
+                    backoffStatus((size_t)pos);
+                else if (processes[pos].state == STOPPED)
+                    stoppedStatus((size_t)pos);
+            }
+        }
     }
 }

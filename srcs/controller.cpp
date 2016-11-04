@@ -13,14 +13,25 @@ static void restartAlways(size_t index) {
     }
 }
 
+
 static void restartUnexpected(size_t index) {
     if (!processes[index].program->checkExitStat(WEXITSTATUS(processes[index].status))) {
         if (processes[index].numRetry < processes[index].program->getStartRetries()) {
+
+            char proname[255];
+            char msg[255];
+
+            sprintf(proname, "program %s exited: ", processes[index].program->getName().data());
+            sprintf(msg, "exitstatus %d", WEXITSTATUS(processes[index].status));
+            recordLogError(proname, msg);
+
             processes[index].pid = processes[index].program->startProcess();
             processes[index].state = STARTING;
             time(&processes[index].reffStart);
             processes[index].numRetry++;
-        }
+
+        } else
+            processes[index].state = BACKOFF;
     } else
         processes[index].state = BACKOFF;
 }
@@ -45,12 +56,19 @@ static void checkStartProcess(size_t index) {
     time_t current;
     pid_t wait;
 
+
     if (processes[index].state == STOPPED || processes[index].state == FATAL || processes[index].state == NOSTART ||
         processes[index].state == BACKOFF || processes[index].state == DEAD)
         return;
+    if (processes[index].pid == -1) {
+        recordLogError(processes[index].program->getName(), "Fork failed.");
+        processes[index].state = FATAL;
+        return;
+    }
     wait = waitpid(processes[index].pid, &processes[index].status, WNOHANG);
     if (wait == -1) {
-        recordLogError(processes[index].program->getName(), "Failed to fork process.");
+        recordLogError(processes[index].program->getName(), "Process does not exist.");
+        processes[index].state = FATAL;
     } else if (wait != 0) {
         if (processes[index].program->getAutorestart() == ALWAYS)
             restartAlways(index);

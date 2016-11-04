@@ -13,7 +13,6 @@
 #include "program.h"
 #include "odds.h"
 
-
 typedef struct s_Process {
     pid_t pid;
     Program *program;
@@ -24,7 +23,6 @@ typedef struct s_Process {
     bool kill;
     int numRetry;
 } t_Process;
-
 
 extern int pop;
 
@@ -42,7 +40,6 @@ void restartProcess(vector<string> param, LineEdit *shell);
 void helpProcess(vector<string> param, LineEdit *shell);
 
 bool isAllPresent(vector<string> param);
-
 
 //controller functions
 
@@ -67,6 +64,5 @@ void statusProcess(vector<string> param, LineEdit *shell);
 void recordLogError(string prog, string issue);
 
 void recordLogProcess(string prog, string process);
-
 
 #endif //TASKMASTER_TASKMASTER_H

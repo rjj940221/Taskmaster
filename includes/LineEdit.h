@@ -28,7 +28,6 @@ private:
     size_t          historyPos;
     size_t          historySize;
     struct termios  newSettings;
-    struct termios  oldSettings;
     string          prompt;
     static int      shellWrite(int c){ return ((int)write(1, &c, 1));}
     void            addToLine(char c);
@@ -39,6 +38,7 @@ private:
     void            downHistory();
 
 public:
+    struct termios  oldSettings;
     LineEdit();
     ~LineEdit();
     bool            shutdown;
