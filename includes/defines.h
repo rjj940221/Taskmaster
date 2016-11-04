@@ -52,4 +52,9 @@
 #define ALWAYS 1
 #define UNEXPECTED 2
 
+#define UP 65
+#define DOWN 66
+#define RIGHT 67
+#define LEFT 68
+
 #endif //TASKMASTER_DEFINES_H

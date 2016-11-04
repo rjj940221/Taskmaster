@@ -1,5 +1,6 @@
 
 #include "../includes/Taskmaster.h"
+
 using namespace std;
 
 void split(const string &s, char delim, vector<string> &elems) {
@@ -31,6 +32,7 @@ char **split_string(const string &line, char delim) {
     if (!(re = (char **) malloc(sizeof(char *) * (splits.size() + 1))))
         return NULL;
     int size = splits.size();
+
     for (int i = 0; i < size; ++i) {
         re[i] = cstring(splits.at(i));
     }
@@ -43,20 +45,25 @@ bool redifd(string file, int fd) {
     char *newLoc = cstring(file);
     bool re;
 
-    //recordLogError("open redir", "trying to open " + newLoc);
 
-    newfd = open(newLoc,  O_RDWR | O_CREAT, 0775);
+    char msg[300];
+    sprintf(msg, "trying to open %s", newLoc);
+    recordLogError("redirection", msg);
+
+    newfd = open(newLoc, O_RDWR | O_CREAT, 0775);
 
     if (newfd < 0) {
-        //recordLogError("open redir", "could not open " + newLoc);
+        sprintf(msg, "could not open %s", newLoc);
+        recordLogError("redirection", msg);
         re = false;
     } else {
-        if (dup2(fd, newfd) == -1)
+        if (dup2(fd, newfd) == -1) {
+            recordLogError("redirection", "replacement of file descriptor failed");
             re = false;
-        else {
+        } else {
             re = true;
         }
     }
-    delete [](newLoc);
+    delete[](newLoc);
     return re;
 }

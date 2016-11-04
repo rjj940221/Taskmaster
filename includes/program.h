@@ -13,11 +13,15 @@
 # include <map>
 # include <sstream>
 # include <fstream>
+# include <math.h>
+# include <cmath>
 # include "defines.h"
 
-
-
 using namespace std;
+
+void recordLogError(string prog, string issue);
+
+void recordLogProcess(string prog, string process);
 
 
 class Program {
@@ -53,6 +57,7 @@ public:
     string getCmd() { return this->cmd; };
 
     int getNumProcess() { return this->numProcess; };
+
     //do umask
     string getDir() { return this->dir; };
 
@@ -74,7 +79,7 @@ public:
 
     string getStderr() { return this->redirStderr; };
 
-    map<char*, char*> getEnv() { return this->env; };
+    map<char *, char *> getEnv() { return this->env; };
 
 
     void setName(string name) { this->name = name; };
@@ -83,7 +88,7 @@ public:
 
     void setNumProcess(int numProc) { this->numProcess = numProc; };
 
-    void setUmask(int newUmask) {this->newUmask = newUmask;};
+    void setUmask(int newUmask) { this->newUmask = newUmask; };
 
     void setDir(string dir) { this->dir = dir; };
 
@@ -97,7 +102,7 @@ public:
 
     void setStartTime(int startTime) { this->startTime = startTime; };
 
-    void setStopSignal(int stopSignal) {this->stopsignal = stopSignal;};
+    void setStopSignal(int stopSignal) { this->stopsignal = stopSignal; };
 
     void setStopTime(int stopTime) { this->stopTime = stopTime; };
 
@@ -105,13 +110,13 @@ public:
 
     void setStderr(string redirStderr) { this->redirStderr = redirStderr; };
 
-    void setEnv(map<char*, char*> env) { this->env = env; };
+    void setEnv(map<char *, char *> env) { this->env = env; };
 
     pid_t startProcess();
 
     bool checkExitStat(int status);
 
-    Program& operator=(Program arg);
+    Program &operator=(Program arg);
 };
 
 #endif //TASKMASTER_PROGRAM_H

@@ -14,16 +14,16 @@
 #include "odds.h"
 
 
-typedef struct      s_Process{
-    pid_t           pid;
-    Program         *program;
-    int             status;
-    int             state;
-    time_t          reffStart;
-    time_t          reffKill;
-    bool            kill;
-    int             numRetry;
-}                   t_Process;
+typedef struct s_Process {
+    pid_t pid;
+    Program *program;
+    int status;
+    int state;
+    time_t reffStart;
+    time_t reffKill;
+    bool kill;
+    int numRetry;
+} t_Process;
 
 
 extern int pop;
@@ -45,6 +45,7 @@ bool isAllPresent(vector<string> param);
 
 
 //controller functions
+
 bool readFile(string file, bool init);
 
 void controllerCheck();
@@ -55,9 +56,17 @@ void startInstruction(const char *progName);
 
 void stopInstruction(const char *progName);
 
+void controllerCheck();
+
+void allStatus();
+
+void statusProcess(vector<string> param, LineEdit *shell);
+
 
 //log functions
-void    recordLogError(string prog, string issue);
-void    recordLogProcess(string prog, string process);
+void recordLogError(string prog, string issue);
+
+void recordLogProcess(string prog, string process);
+
 
 #endif //TASKMASTER_TASKMASTER_H
