@@ -4,6 +4,8 @@
 
 vector<t_Process> processes;
 char *g_file;
+time_t taskmasterTime;
+
 
 int main(int ac, char **av) {
     LineEdit shell;
@@ -11,7 +13,9 @@ int main(int ac, char **av) {
 
     if (ac == 2) {
         g_file = av[1];
+        time(&taskmasterTime);
         readFile(g_file, true);
+
         allStatus();
 
         shell.startShell();

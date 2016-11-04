@@ -1,7 +1,3 @@
-//
-// Created by Robert JONES on 2016/11/02.
-//
-
 #include <yaml-cpp/node/node.h>
 #include <yaml-cpp/yaml.h>
 #include "../includes/Taskmaster.h"
@@ -224,15 +220,14 @@ bool readFile(string file, bool init) {
                         processes.at(programindex).program = addpro;
                     } else {
                         char msg[300];
-                        sprintf(msg, "program name allready exsists at index %d", programindex);
+                        sprintf(msg,"program name allready exsists at index %d", programindex);
                         recordLogError("load file", msg);
                     }
                 }
-            } else {
+            } else{
                 char msg[300];
                 sprintf(msg, "failed to build program at index %d in config file", count);
-                recordLogError("load file", msg);
-            }
+                recordLogError("load file",msg);}
 
         }
 

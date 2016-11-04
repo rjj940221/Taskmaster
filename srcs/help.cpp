@@ -1,7 +1,3 @@
-//
-// Created by Stephen ASIEDU on 2016/11/02.
-//
-
 #include "../includes/Taskmaster.h"
 
 void    helpProcess(vector<string> param, LineEdit *shell){
@@ -48,6 +44,18 @@ void    helpProcess(vector<string> param, LineEdit *shell){
         write(1, BLUE, strlen(BLUE));
         write(1, HELP5, strlen(HELP5));
         write(1, HELP6, strlen(HELP6));
+        write(1, RESET, strlen(RESET));
+        return ;
+    }
+    if (strcmp((char *) param[1].data(), "reload") == 0){
+        write(1, BLUE, strlen(BLUE));
+        write(1, RELOAD1, strlen(RELOAD1));
+        write(1, RESET, strlen(RESET));
+        return ;
+    }
+    if (strcmp((char *) param[1].data(), "shutdown") == 0){
+        write(1, BLUE, strlen(BLUE));
+        write(1, SHUTDOWN, strlen(SHUTDOWN));
         write(1, RESET, strlen(RESET));
         return ;
     }

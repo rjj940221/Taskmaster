@@ -6,7 +6,7 @@
 
 using namespace std;
 
-void    processInstruction(string line, LineEdit *shell) {
+void processInstruction(string line, LineEdit *shell) {
     smatch base_match;
     regex basic_regex("\\S+");
     vector<string> params;
@@ -15,44 +15,50 @@ void    processInstruction(string line, LineEdit *shell) {
         params.push_back(base_match.str());
         line = base_match.suffix();
     }
-    if (strcmp((char *) params[0].data(), "start") == 0){
+    if (strcmp((char *) params[0].data(), "start") == 0) {
         startProcess(params, shell);
         return;
     }
-    if (strcmp((char *) params[0].data(), "stop") == 0){
+    if (strcmp((char *) params[0].data(), "stop") == 0) {
         stopProcess(params, shell);
         return;
     }
-    if (strcmp((char *) params[0].data(), "restart") == 0){
+    if (strcmp((char *) params[0].data(), "restart") == 0) {
         restartProcess(params, shell);
         return;
     }
-    if (strcmp((char *) params[0].data(), "help") == 0){
+    if (strcmp((char *) params[0].data(), "help") == 0) {
         helpProcess(params, shell);
         return;
     }
-    if (strcmp((char *) params[0].data(), "status") == 0){
+    if (strcmp((char *) params[0].data(), "status") == 0) {
         statusProcess(params, shell);
         return;
     }
-    if (strcmp((char *) params[0].data(), "reload") == 0){
+
+    if (strcmp((char *) params[0].data(), "reload") == 0) {
         readFile(g_file, false);
         shell->shutdown = false;
+    }
+
+    if (strcmp((char *) params[0].data(), "shutdown") == 0) {
+        exit();
+        shell->shutdown = true;
         return;
     }
 }
 
 
-bool    isAllPresent(vector<string> param){
-    for (size_t i = 1; i < param.size(); i++){
-        if (strcmp((char *)param[i].data(), "all") == 0)
+bool isAllPresent(vector<string> param) {
+    for (size_t i = 1; i < param.size(); i++) {
+        if (strcmp((char *) param[i].data(), "all") == 0)
             return true;
     }
     return false;
 }
 
-int     isProgramExist(const char *progName){
-    for (int i = 0; i < processes.size(); i++){
+int isProgramExist(const char *progName) {
+    for (int i = 0; i < processes.size(); i++) {
         if (strcmp(progName, processes[i].program->getName().data()) == 0)
             return i;
     }

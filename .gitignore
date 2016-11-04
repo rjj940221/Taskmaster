@@ -1,5 +1,5 @@
 .gitignore
 .idea
 Task.dSYM/
-bulid/
+build/
 CMakeFiles/
