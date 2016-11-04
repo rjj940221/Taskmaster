@@ -48,7 +48,7 @@ bool redifd(string file, int fd) {
 
     char msg[300];
     sprintf(msg, "trying to open %s", newLoc);
-    recordLogError("redirection", msg);
+    recordLogProcess("redirection", msg);
 
     newfd = open(newLoc, O_RDWR | O_CREAT, 0775);
 
@@ -62,7 +62,7 @@ bool redifd(string file, int fd) {
             re = false;
         } else {
             sprintf(msg, "over wrote file descripter to %s", newLoc);
-            recordLogError("redirection", msg);
+            recordLogProcess("redirection", msg);
             re = true;
         }
     }

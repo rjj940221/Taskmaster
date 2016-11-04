@@ -4,26 +4,27 @@
 
 using namespace std;
 
-bool changeWorkingDir(string dir){
+bool changeWorkingDir(string dir) {
     struct stat info;
     char *newLoc = cstring(dir);
     if (stat(newLoc, &info) != 0) {
         char msg[300];
-        sprintf(msg, "cannot access %s\n", newLoc);
+        sprintf(msg, "cannot access %s", newLoc);
         recordLogError("changing working dir", msg);
         return false;
-    }
-    else if (!(info.st_mode & S_IFDIR)){
+    } else if (!(info.st_mode & S_IFDIR)) {
         char msg[300];
-        sprintf(msg,"%s is not a directory\n", newLoc);
+        sprintf(msg, "%s is not a directory", newLoc);
         recordLogError("changing working dir", msg);
         return false;
-    }
-    else if (info.st_mode & S_IFDIR) {
+    } else if (info.st_mode & S_IFDIR) {
         int re = chdir(newLoc);
-        if (re == 0)
+        if (re == 0) {
+            char msg[300];
+            sprintf(msg, "working dir %s", newLoc);
+            recordLogProcess("changing working dir", msg);
             return true;
-
+        }
     }
     return false;
 }
@@ -33,8 +34,9 @@ Program::Program() {
 }
 
 Program::Program(string name, string cmd, int numProcess, int umask, string dir, bool autostart, int autorestart,
-                 vector<int> exit_codes, int startRetries, int startTime,int stopsignal, int stopTime, string redirStdout,
-                 string redirStderr, map<char*, char*> env) {
+                 vector<int> exit_codes, int startRetries, int startTime, int stopsignal, int stopTime,
+                 string redirStdout,
+                 string redirStderr, map<char *, char *> env) {
     this->name = name;
     this->cmd = cmd;
     this->numProcess = numProcess;
@@ -77,15 +79,15 @@ pid_t Program::startProcess() {
                 exit(EXIT_FAILURE);
             }
         if (!redirStdout.empty())
-            if (!redifd(redirStdout, 1)){
+            if (!redifd(redirStdout, 1)) {
                 exit(EXIT_FAILURE);
             }
         if (!dir.empty())
-            if(!changeWorkingDir(dir)){
+            if (!changeWorkingDir(dir)) {
                 exit(EXIT_FAILURE);
             }
 
-        for (map<char*, char*>::iterator it=env.begin(); it!=env.end(); ++it) {
+        for (map<char *, char *>::iterator it = env.begin(); it != env.end(); ++it) {
             setenv(it->first, it->second, 1);
         }
         extern char **environ;
@@ -106,7 +108,7 @@ bool Program::checkExitStat(int status) {
     return false;
 }
 
-Program& Program::operator=(Program arg) // copy/move constructor is called to construct arg
+Program &Program::operator=(Program arg) // copy/move constructor is called to construct arg
 {
     this->name = arg.name;
     this->cmd = arg.cmd;
