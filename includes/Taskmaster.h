@@ -28,6 +28,8 @@ extern int pop;
 
 extern vector<t_Process> processes;
 
+extern time_t taskmasterTime;
+
 //terminol instructions
 void processInstruction(string line, LineEdit *shell);
 
@@ -59,6 +61,9 @@ void allStatus();
 
 void statusProcess(vector<string> param, LineEdit *shell);
 
+void shutdownProcess(vector<string> param, LineEdit *shell);
+
+void exit();
 
 //log functions
 void recordLogError(string prog, string issue);

@@ -1,0 +1,19 @@
+[31mFriday 04 November 2016 11:13:09   redirection   trying to open /tmp/cat.stderr
+[31mFriday 04 November 2016 11:13:09   redirection   trying to open /tmp/cat.stdout
+[31mFriday 04 November 2016 11:13:09   changing working dir   /tmp is not a directory
+
+[31mFriday 04 November 2016 11:13:11   program cat exited:    exitstatus 1
+[31mFriday 04 November 2016 11:13:11   redirection   trying to open /tmp/cat.stderr
+[31mFriday 04 November 2016 11:13:11   redirection   trying to open /tmp/cat.stdout
+[31mFriday 04 November 2016 11:13:11   changing working dir   /tmp is not a directory
+
+[31mFriday 04 November 2016 11:13:11   program cat exited:    exitstatus 1
+[31mFriday 04 November 2016 11:13:11   redirection   trying to open /tmp/cat.stderr
+[31mFriday 04 November 2016 11:13:11   redirection   trying to open /tmp/cat.stdout
+[31mFriday 04 November 2016 11:13:11   changing working dir   /tmp is not a directory
+
+[31mFriday 04 November 2016 11:13:12   program cat exited:    exitstatus 1
+[31mFriday 04 November 2016 11:13:12   redirection   trying to open /tmp/cat.stderr
+[31mFriday 04 November 2016 11:13:12   redirection   trying to open /tmp/cat.stdout
+[31mFriday 04 November 2016 11:13:12   changing working dir   /tmp is not a directory
+

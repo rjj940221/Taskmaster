@@ -51,6 +51,18 @@ void    helpProcess(vector<string> param, LineEdit *shell){
         write(1, RESET, strlen(RESET));
         return ;
     }
+    if (strcmp((char *) param[1].data(), "reload") == 0){
+        write(1, BLUE, strlen(BLUE));
+        write(1, RELOAD1, strlen(RELOAD1));
+        write(1, RESET, strlen(RESET));
+        return ;
+    }
+    if (strcmp((char *) param[1].data(), "shutdown") == 0){
+        write(1, BLUE, strlen(BLUE));
+        write(1, SHUTDOWN, strlen(SHUTDOWN));
+        write(1, RESET, strlen(RESET));
+        return ;
+    }
     write(1, RED, strlen(RED));
     write(1, "*** No help on ", 15);
     write(1, (char *)param[1].data(), strlen((char *)param[1].data()));

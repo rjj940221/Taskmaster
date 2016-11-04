@@ -35,6 +35,11 @@ void    processInstruction(string line, LineEdit *shell) {
         statusProcess(params, shell);
         return;
     }
+    if (strcmp((char *) params[0].data(), "shutdown") == 0){
+        exit();
+        shell->shutdown = true;
+        return;
+    }
 }
 
 

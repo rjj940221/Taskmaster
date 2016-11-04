@@ -39,19 +39,19 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /nfs/zfs-student-6/users/rojones/.brew/Cellar/cmake/3.6.2/bin/cmake
+CMAKE_COMMAND = /nfs/zfs-student-6/users/sasiedu/.brew/Cellar/cmake/3.6.2/bin/cmake
 
 # The command to remove a file.
-RM = /nfs/zfs-student-6/users/rojones/.brew/Cellar/cmake/3.6.2/bin/cmake -E remove -f
+RM = /nfs/zfs-student-6/users/sasiedu/.brew/Cellar/cmake/3.6.2/bin/cmake -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /nfs/zfs-student-6/users/rojones/Documents/We_Think_Code/Taskmaster
+CMAKE_SOURCE_DIR = /nfs/zfs-student-6/users/sasiedu/Desktop/Taskmaster
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /nfs/zfs-student-6/users/rojones/Documents/We_Think_Code/Taskmaster/build
+CMAKE_BINARY_DIR = /nfs/zfs-student-6/users/sasiedu/Desktop/Taskmaster/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -59,7 +59,7 @@ CMAKE_BINARY_DIR = /nfs/zfs-student-6/users/rojones/Documents/We_Think_Code/Task
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
-	/nfs/zfs-student-6/users/rojones/.brew/Cellar/cmake/3.6.2/bin/ccmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/nfs/zfs-student-6/users/sasiedu/.brew/Cellar/cmake/3.6.2/bin/ccmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -70,7 +70,7 @@ edit_cache/fast: edit_cache
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/nfs/zfs-student-6/users/rojones/.brew/Cellar/cmake/3.6.2/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/nfs/zfs-student-6/users/sasiedu/.brew/Cellar/cmake/3.6.2/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : rebuild_cache
 
 # Special rule for the target rebuild_cache
@@ -80,9 +80,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /nfs/zfs-student-6/users/rojones/Documents/We_Think_Code/Taskmaster/build/CMakeFiles /nfs/zfs-student-6/users/rojones/Documents/We_Think_Code/Taskmaster/build/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /nfs/zfs-student-6/users/sasiedu/Desktop/Taskmaster/build/CMakeFiles /nfs/zfs-student-6/users/sasiedu/Desktop/Taskmaster/build/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /nfs/zfs-student-6/users/rojones/Documents/We_Think_Code/Taskmaster/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /nfs/zfs-student-6/users/sasiedu/Desktop/Taskmaster/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -420,6 +420,33 @@ srcs/restart.cpp.s:
 	$(MAKE) -f CMakeFiles/Taskmaster.dir/build.make CMakeFiles/Taskmaster.dir/srcs/restart.cpp.s
 .PHONY : srcs/restart.cpp.s
 
+srcs/shutdown.o: srcs/shutdown.cpp.o
+
+.PHONY : srcs/shutdown.o
+
+# target to build an object file
+srcs/shutdown.cpp.o:
+	$(MAKE) -f CMakeFiles/Taskmaster.dir/build.make CMakeFiles/Taskmaster.dir/srcs/shutdown.cpp.o
+.PHONY : srcs/shutdown.cpp.o
+
+srcs/shutdown.i: srcs/shutdown.cpp.i
+
+.PHONY : srcs/shutdown.i
+
+# target to preprocess a source file
+srcs/shutdown.cpp.i:
+	$(MAKE) -f CMakeFiles/Taskmaster.dir/build.make CMakeFiles/Taskmaster.dir/srcs/shutdown.cpp.i
+.PHONY : srcs/shutdown.cpp.i
+
+srcs/shutdown.s: srcs/shutdown.cpp.s
+
+.PHONY : srcs/shutdown.s
+
+# target to generate assembly for a file
+srcs/shutdown.cpp.s:
+	$(MAKE) -f CMakeFiles/Taskmaster.dir/build.make CMakeFiles/Taskmaster.dir/srcs/shutdown.cpp.s
+.PHONY : srcs/shutdown.cpp.s
+
 srcs/start.o: srcs/start.cpp.o
 
 .PHONY : srcs/start.o
@@ -543,6 +570,9 @@ help:
 	@echo "... srcs/restart.o"
 	@echo "... srcs/restart.i"
 	@echo "... srcs/restart.s"
+	@echo "... srcs/shutdown.o"
+	@echo "... srcs/shutdown.i"
+	@echo "... srcs/shutdown.s"
 	@echo "... srcs/start.o"
 	@echo "... srcs/start.i"
 	@echo "... srcs/start.s"

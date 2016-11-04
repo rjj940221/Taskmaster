@@ -22,6 +22,11 @@
 #define STARTERR3 "start <name> <name>\tStart multiple processes\n"
 #define STARTERR4 "start all\t\tStart all processes\n"
 
+#define RELOAD1 "reload \t\tRestart the remote supervisord.\n"
+
+#define SHUTDOWN "shutdown \tShut the remote supervisord down.\n"
+#define SHUTDOWN2 "no process loaded.\n"
+
 #define STOPERR1 "Error: stop requires a process name\n"
 #define STOPERR2 "stop <name>\t\tStop a process\n"
 #define STOPERR3 "stop <name> <name>\tStop multiple processes\n"

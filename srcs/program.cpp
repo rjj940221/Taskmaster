@@ -9,13 +9,13 @@ bool changeWorkingDir(string dir){
     char *newLoc = cstring(dir);
     if (stat(newLoc, &info) != 0) {
         char msg[300];
-        sprintf(msg, "cannot access %s\n", newLoc);
+        sprintf(msg, "cannot access %s", newLoc);
         recordLogError("changing working dir", msg);
         return false;
     }
     else if (info.st_mode & S_IFDIR) {
         char msg[300];
-        sprintf(msg,"%s is not a directory\n", newLoc);
+        sprintf(msg,"%s is not a directory", newLoc);
         recordLogError("changing working dir", msg);
         return false;
     }

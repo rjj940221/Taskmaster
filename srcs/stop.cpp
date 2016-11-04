@@ -56,7 +56,9 @@ void            stopInstruction(const char *progName){
 
 void            stopProcess(vector<string> param, LineEdit *shell){
     if (shell->shutdown){
-        write(1, "temp", 4);
+        write(1, RED, strlen(RED));
+        write(1, SHUTDOWN2, strlen(SHUTDOWN2));
+        write(1, RESET, strlen(RESET));
         return ;
     }
     if (param.size() < 2){

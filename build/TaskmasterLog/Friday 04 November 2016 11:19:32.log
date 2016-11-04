@@ -1,0 +1,39 @@
+[31mFriday 04 November 2016 11:19:32	redirection  trying to open /tmp/ls.stderr
+[0m[31mFriday 04 November 2016 11:19:32	redirection  trying to open /tmp/cat.stderr
+[0m[31mFriday 04 November 2016 11:19:32	redirection  trying to open /tmp/cat.stdout
+[0m[31mFriday 04 November 2016 11:19:32	redirection  trying to open /tmp/ls.stdout
+[0m[31mFriday 04 November 2016 11:19:32	changing working dir  /tmp is not a directory
+
+[0m[31mFriday 04 November 2016 11:19:32	changing working dir  /tmp is not a directory
+
+[0m[31mFriday 04 November 2016 11:19:33	program cat exited:   exitstatus 1
+[0m[31mFriday 04 November 2016 11:19:33	program ls exited:   exitstatus 1
+[0m[31mFriday 04 November 2016 11:19:33	redirection  trying to open /tmp/cat.stderr
+[0m[31mFriday 04 November 2016 11:19:33	redirection  trying to open /tmp/cat.stdout
+[0m[31mFriday 04 November 2016 11:19:33	redirection  trying to open /tmp/ls.stderr
+[0m[31mFriday 04 November 2016 11:19:33	changing working dir  /tmp is not a directory
+
+[0m[31mFriday 04 November 2016 11:19:33	redirection  trying to open /tmp/ls.stdout
+[0m[31mFriday 04 November 2016 11:19:33	changing working dir  /tmp is not a directory
+
+[0m[31mFriday 04 November 2016 11:19:33	program cat exited:   exitstatus 1
+[0m[31mFriday 04 November 2016 11:19:33	program ls exited:   exitstatus 1
+[0m[31mFriday 04 November 2016 11:19:33	redirection  trying to open /tmp/cat.stderr
+[0m[31mFriday 04 November 2016 11:19:33	redirection  trying to open /tmp/cat.stdout
+[0m[31mFriday 04 November 2016 11:19:33	redirection  trying to open /tmp/ls.stderr
+[0m[31mFriday 04 November 2016 11:19:33	changing working dir  /tmp is not a directory
+
+[0m[31mFriday 04 November 2016 11:19:33	redirection  trying to open /tmp/ls.stdout
+[0m[31mFriday 04 November 2016 11:19:33	changing working dir  /tmp is not a directory
+
+[0m[31mFriday 04 November 2016 11:19:33	program cat exited:   exitstatus 1
+[0m[31mFriday 04 November 2016 11:19:33	program ls exited:   exitstatus 1
+[0m[31mFriday 04 November 2016 11:19:33	redirection  trying to open /tmp/cat.stderr
+[0m[31mFriday 04 November 2016 11:19:33	redirection  trying to open /tmp/cat.stdout
+[0m[31mFriday 04 November 2016 11:19:33	redirection  trying to open /tmp/ls.stderr
+[0m[31mFriday 04 November 2016 11:19:33	changing working dir  /tmp is not a directory
+
+[0m[31mFriday 04 November 2016 11:19:33	redirection  trying to open /tmp/ls.stdout
+[0m[31mFriday 04 November 2016 11:19:33	changing working dir  /tmp is not a directory
+
+[0m

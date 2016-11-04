@@ -1,0 +1,38 @@
+[31mFriday 04 November 2016 11:11:17[31mFriday 04 November 2016 11:11:17      redirectionredirection      trying to open /tmp/cat.stderr
+trying to open /tmp/ls.stderr
+[31m[31mFriday 04 November 2016 11:11:17   Friday 04 November 2016 11:11:17redirection      redirectiontrying to open /tmp/cat.stdout   
+trying to open /tmp/ls.stdout
+[31mFriday 04 November 2016 11:11:17[31m   Friday 04 November 2016 11:11:17changing working dir      /tmp is not a directory
+changing working dir   
+/tmp is not a directory
+
+[31mFriday 04 November 2016 11:11:19   program cat exited:    exitstatus 1
+[31m[31mFriday 04 November 2016 11:11:19Friday 04 November 2016 11:11:19      program ls exited: redirection      exitstatus 1trying to open /tmp/cat.stderr
+
+[31mFriday 04 November 2016 11:11:19[31m   Friday 04 November 2016 11:11:19redirection      redirectiontrying to open /tmp/cat.stdout   
+trying to open /tmp/ls.stderr
+[31mFriday 04 November 2016 11:11:19   [31mchanging working dirFriday 04 November 2016 11:11:19      /tmp is not a directory
+redirection
+   trying to open /tmp/ls.stdout
+[31mFriday 04 November 2016 11:11:19   changing working dir   /tmp is not a directory
+
+[31mFriday 04 November 2016 11:11:19   program cat exited:    exitstatus 1
+[31mFriday 04 November 2016 11:11:19[31m   Friday 04 November 2016 11:11:19program ls exited:       redirection   exitstatus 1
+trying to open /tmp/cat.stderr
+[31mFriday 04 November 2016 11:11:19[31m   Friday 04 November 2016 11:11:19redirection      redirectiontrying to open /tmp/ls.stderr   
+trying to open /tmp/cat.stdout
+[31m[31mFriday 04 November 2016 11:11:19Friday 04 November 2016 11:11:19      redirectionchanging working dir      trying to open /tmp/ls.stdout/tmp is not a directory
+
+
+[31mFriday 04 November 2016 11:11:19   changing working dir   /tmp is not a directory
+
+[31mFriday 04 November 2016 11:11:19   program cat exited:    exitstatus 1
+[31m[31mFriday 04 November 2016 11:11:19Friday 04 November 2016 11:11:19      redirectionprogram ls exited:       trying to open /tmp/cat.stderrexitstatus 1
+
+[31m[31mFriday 04 November 2016 11:11:19   Friday 04 November 2016 11:11:19   redirectionredirection      trying to open /tmp/cat.stdout
+trying to open /tmp/ls.stderr
+[31m[31mFriday 04 November 2016 11:11:19Friday 04 November 2016 11:11:19      changing working dirredirection      /tmp is not a directory
+trying to open /tmp/ls.stdout
+
+[31mFriday 04 November 2016 11:11:19   changing working dir   /tmp is not a directory
+

@@ -4,12 +4,14 @@
 
 vector<t_Process> processes;
 
+time_t taskmasterTime;
 
 int main(int ac, char **av) {
     LineEdit shell;
     bool ret;
 
     if (ac == 2) {
+        time(&taskmasterTime);
         readFile(av[1], true);
         allStatus();
 
