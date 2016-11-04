@@ -26,6 +26,8 @@ typedef struct s_Process {
 
 extern int pop;
 
+extern char* g_file;
+
 extern vector<t_Process> processes;
 
 //terminol instructions

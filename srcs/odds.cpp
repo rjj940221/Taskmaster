@@ -57,11 +57,12 @@ bool redifd(string file, int fd) {
         recordLogError("redirection", msg);
         re = false;
     } else {
-        if (dup2(fd, newfd) == -1) {
+        if (dup2(newfd, fd) == -1) {
             recordLogError("redirection", "replacement of file descriptor failed");
             re = false;
         } else {
-
+            sprintf(msg, "over wrote file descripter to %s", newLoc);
+            recordLogError("redirection", msg);
             re = true;
         }
     }

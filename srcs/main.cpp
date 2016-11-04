@@ -3,14 +3,15 @@
 #include "../includes/Taskmaster.h"
 
 vector<t_Process> processes;
-
+char *g_file;
 
 int main(int ac, char **av) {
     LineEdit shell;
     bool ret;
 
     if (ac == 2) {
-        readFile(av[1], true);
+        g_file = av[1];
+        readFile(g_file, true);
         allStatus();
 
         shell.startShell();

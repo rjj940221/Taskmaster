@@ -1,21 +1,25 @@
-[31mFriday 04 November 2016 09:32:25][31mredirectionFriday 04 November 2016 09:32:25]  changing working dir  trying to open /tmp/nginx.stderr/tmp is not a directory
+[31mFriday 04 November 2016 10:29:01]redirection  trying to open /tmp/ls.stdout
+[31mFriday 04 November 2016 10:29:01]redirection  over wrote file descripter to /tmp/ls.stdout
+[31m[31mFriday 04 November 2016 10:29:26]Friday 04 November 2016 10:29:26]redirectionredirection    trying to open /tmp/nginx.stderrtrying to open /tmp/tail.stderr
 
+[31m[31mFriday 04 November 2016 10:29:26]Friday 04 November 2016 10:29:26]redirectionredirection    over wrote file descripter to /tmp/nginx.stderrover wrote file descripter to /tmp/tail.stderr
 
-[31mFriday 04 November 2016 09:32:25]redirection  trying to open /tmp/nginx.stdout
-[31mFriday 04 November 2016 09:32:25]changing working dir  /tmp is not a directory
+[31m[31mFriday 04 November 2016 10:29:26]redirectionFriday 04 November 2016 10:29:26]redirection    trying to open /tmp/nginx.stdouttrying to open /tmp/tail.stdout
 
-[31mFriday 04 November 2016 09:51:24]program ngix exited:   exitstatus 1
-[31mFriday 04 November 2016 09:51:24]redirection  trying to open /tmp/nginx.stderr
-[31mFriday 04 November 2016 09:51:24]redirection  trying to open /tmp/nginx.stdout
-[31mFriday 04 November 2016 09:51:24]changing working dir  /tmp is not a directory
+[31m[31mFriday 04 November 2016 10:29:26]redirectionFriday 04 November 2016 10:29:26]  redirection  over wrote file descripter to /tmp/tail.stdoutover wrote file descripter to /tmp/nginx.stdout
 
-[31mFriday 04 November 2016 09:51:25]program ngix exited:   exitstatus 1
-[31mFriday 04 November 2016 09:51:25]redirection  trying to open /tmp/nginx.stderr
-[31mFriday 04 November 2016 09:51:25]redirection  trying to open /tmp/nginx.stdout
-[31mFriday 04 November 2016 09:51:25]changing working dir  /tmp is not a directory
-
-[31mFriday 04 November 2016 09:51:25]program ngix exited:   exitstatus 1
-[31mFriday 04 November 2016 09:51:25]redirection  trying to open /tmp/nginx.stderr
-[31mFriday 04 November 2016 09:51:25]redirection  trying to open /tmp/nginx.stdout
-[31mFriday 04 November 2016 09:51:25]changing working dir  /tmp is not a directory
-
+[31mFriday 04 November 2016 10:29:27]program ngix exited:   exitstatus 1
+[31mFriday 04 November 2016 10:29:27]redirection  trying to open /tmp/nginx.stderr
+[31mFriday 04 November 2016 10:29:27]redirection  over wrote file descripter to /tmp/nginx.stderr
+[31mFriday 04 November 2016 10:29:27]redirection  trying to open /tmp/nginx.stdout
+[31mFriday 04 November 2016 10:29:27]redirection  over wrote file descripter to /tmp/nginx.stdout
+[31mFriday 04 November 2016 10:29:27]program ngix exited:   exitstatus 1
+[31mFriday 04 November 2016 10:29:27]redirection  trying to open /tmp/nginx.stderr
+[31mFriday 04 November 2016 10:29:27]redirection  over wrote file descripter to /tmp/nginx.stderr
+[31mFriday 04 November 2016 10:29:27]redirection  trying to open /tmp/nginx.stdout
+[31mFriday 04 November 2016 10:29:27]redirection  over wrote file descripter to /tmp/nginx.stdout
+[31mFriday 04 November 2016 10:29:28]program ngix exited:   exitstatus 1
+[31mFriday 04 November 2016 10:29:28]redirection  trying to open /tmp/nginx.stderr
+[31mFriday 04 November 2016 10:29:28]redirection  over wrote file descripter to /tmp/nginx.stderr
+[31mFriday 04 November 2016 10:29:28]redirection  trying to open /tmp/nginx.stdout
+[31mFriday 04 November 2016 10:29:28]redirection  over wrote file descripter to /tmp/nginx.stdout

@@ -13,7 +13,7 @@ bool changeWorkingDir(string dir){
         recordLogError("changing working dir", msg);
         return false;
     }
-    else if (info.st_mode & S_IFDIR) {
+    else if (!(info.st_mode & S_IFDIR)){
         char msg[300];
         sprintf(msg,"%s is not a directory\n", newLoc);
         recordLogError("changing working dir", msg);

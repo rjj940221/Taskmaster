@@ -24,8 +24,21 @@ Programs:
     umask: 022
     workingdir: /tmp
     autostart: true
+    stdout: "/tmp/ls.stdout"
     autorestart: never
     exitcodes:
       - 0
       - 2
+    stopsignal: SIGTERM
+  - name: tail
+    cmd: "/usr/bin/tail"
+    numprocs: 1
+    umask: 022
+    workingdir: /tmp
+    autostart: true
+    autorestart: never
+    stdout: "/tmp/tail.stdout"
+    stderr: "/tmp/tail.stderr"
+    exitcodes:
+      - 0
     stopsignal: SIGTERM

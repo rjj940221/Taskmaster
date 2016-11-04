@@ -35,6 +35,10 @@ void    processInstruction(string line, LineEdit *shell) {
         statusProcess(params, shell);
         return;
     }
+    if (strcmp((char *) params[0].data(), "reload") == 0){
+        readFile(g_file, false);
+        return;
+    }
 }
 
 
